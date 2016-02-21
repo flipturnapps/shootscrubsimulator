@@ -9,8 +9,9 @@ public class ShootMain {
 		while(true)
 		{
 			frame.repaint();
+			frame.doChecks();
 			try {
-				Thread.sleep(25);
+				Thread.sleep(30);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
