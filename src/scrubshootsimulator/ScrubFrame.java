@@ -1,5 +1,6 @@
 package scrubshootsimulator;
 
+import java.awt.Color;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -8,16 +9,18 @@ import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 
 public class ScrubFrame extends JFrame 
 {
-	private Crosshair crosshair;
+	private Crosshair player;
 	private Scrub firstScrub;
 	private SpritePanel panel;
 	private ScrubLibrary lib;
 	private long lastTime = 0;
+	private Crosshair[] crosshairs = new Crosshair[6];
 	public ScrubFrame()
 	{
 		panel = new SpritePanel();
-		crosshair = new Crosshair();
-		panel.add(crosshair);
+		player = new CrosshairMouse();
+		crosshairs[0] = player;
+		panel.add(player);
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		lib = new UrlListScrubLib(new File("res/warrens.txt"));
@@ -25,11 +28,20 @@ public class ScrubFrame extends JFrame
 		firstScrub.setX(20);
 		firstScrub.setY(20);
 		panel.add(firstScrub);
+		for(int i = 1; i < crosshairs.length; i++)
+		{
+			crosshairs[i] = new CrosshairBot();
+			panel.add(crosshairs[i]);
+		}
 		this.setSize(600, 600);
 	}
 	public void doChecks()
 	{
-		if(System.currentTimeMillis() - lastTime > 1000)
+		for (int i = 0; i < crosshairs.length; i++) {
+			crosshairs[i].spotlight();
+			
+		}
+		if(System.currentTimeMillis() - lastTime > 250)
 		{
 			Scrub newScrub = new Scrub(lib);
 			panel.add(newScrub);
@@ -45,16 +57,16 @@ public class ScrubFrame extends JFrame
 				scrub = (Scrub) panel.getSprites().get(i);
 			else
 				continue;
-			if(!panel.mouseDown() && crosshair.collidingWithCircles(scrub))
-				crosshair.setTarget(scrub);
-			if(panel.mouseDown() && crosshair.collidingWithCircles(scrub) && crosshair.targetIs(scrub))
-				crosshair.attack(scrub);
+			for (int y = 0; y < crosshairs.length; y++) {
+				crosshairs[y].forEachScrub(scrub);
+				
+			}
 			if(!scrub.isVisible())
 			{
 				panel.remove(scrub);
 				i--;
 			}
-
+			
 		}
 	}
 }

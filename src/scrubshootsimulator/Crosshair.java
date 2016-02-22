@@ -12,29 +12,33 @@ import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 
 import javafx.scene.shape.Ellipse;
 
-public class Crosshair extends PositionSprite 
+public abstract class Crosshair extends PositionSprite 
 {
 
 	private static final int STROKE = 2;
 	private Color crosshairColor;
-	private int targetId;
-
+	private int score;
+	private int id;
+	private static int idCount;
+	private boolean madeScorebar = false;
 	public Crosshair()
 	{
 		this.setOutsideAllowed(false);
 		this.setAll(20, 20, 40, 40);
 		this.setCrosshairColor(Color.RED);
 		this.setLayer(2);
+		setId(idCount++);
 	}
-
 
 	@Override
 	protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) 
 	{
-		this.setCenterX((int) this.getPanel().getMouseX());
-		this.setCenterY((int) this.getPanel().getMouseY());
+		if(!madeScorebar)
+		{
+			this.getPanel().add(new ScoreBar());
+		}
 		Color maiColor = this.getCrosshairColor();
-		if(this.getPanel().mouseDown())
+		if(attacking())
 			maiColor = KevinColor.mix(this.getCrosshairColor(), Color.WHITE, .3);
 		g.setColor(maiColor);
 	
@@ -50,9 +54,12 @@ public class Crosshair extends PositionSprite
 		g.fillRect(this.getCenterX()-STROKE/2, this.getCenterY()+1- this.getHeight()/2, STROKE, this.getHeight()-2);
 		g.fillRect(this.getCenterX()+1- this.getWidth()/2 , this.getCenterY()-STROKE/2, this.getWidth() -2, STROKE);
 		
-
 	}
 
+
+	public  abstract boolean attacking();
+	public abstract void spotlight();
+	public abstract void forEachScrub(Scrub scrub);
 
 	public Color getCrosshairColor() {
 		return crosshairColor;
@@ -64,22 +71,44 @@ public class Crosshair extends PositionSprite
 	}
 
 
-	public void setTarget(Scrub scrub) 
+	private class ScoreBar extends PositionSprite
 	{
-		this.targetId = scrub.getId();
-	}
-
-
-	public boolean targetIs(Scrub scrub) 
-	{
-		if(scrub.getId() == this.targetId)
-			return true;
-		return false;
+		public ScoreBar()
+		{
+			this.setLayer(0);
+		}
+		@Override
+		protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) {
+			g.setColor(getCrosshairColor());
+			g.fillRect(0, getId()*30, score*this.getPanelWidth()/100, 30);
+			
+		}
+		
 	}
 
 
 	public void attack(Scrub scrub)
 	{
+		if(scrub.isVisible())
+			score++;
 		scrub.setVisible(false);
+	}
+
+
+	public int getScore() {
+		return score;
+	}
+
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
