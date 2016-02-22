@@ -1,4 +1,4 @@
-package scrubshootsimulator;
+package serverside;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;

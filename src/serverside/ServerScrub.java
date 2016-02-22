@@ -1,4 +1,4 @@
-package scrubshootsimulator;
+package serverside;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -6,9 +6,7 @@ import java.awt.Image;
 import com.flipturnapps.kevinLibrary.sprite.PositionSprite;
 import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 
-import serverside.ScrubLibrary;
-
-public class Scrub extends PositionSprite 
+public class ServerScrub extends PositionSprite 
 {
 
 	private static final int SIZE = 60;
@@ -16,16 +14,12 @@ public class Scrub extends PositionSprite
 	private int id;
 	private static int staticid;
 
-	public Scrub(ScrubLibrary lib) 
+	public ServerScrub(ScrubLibrary lib) 
 	{
-		this.setAll(0, 0, Scrub.SIZE, Scrub.SIZE);
+		this.setAll(0, 0, ServerScrub.SIZE, ServerScrub.SIZE);
 		this.scrubImage = lib.getScrub();
 		this.setLayer(1);
-		id=staticid;
-		staticid++;
-		
-			
-		
+		id=staticid++;
 	}
 
 

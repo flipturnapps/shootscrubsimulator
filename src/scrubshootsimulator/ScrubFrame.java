@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 
 import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 
+import serverside.ScrubLibrary;
+import serverside.UrlListScrubLib;
+
 public class ScrubFrame extends JFrame 
 {
 	private Crosshair player;
