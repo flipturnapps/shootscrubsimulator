@@ -31,7 +31,7 @@ public class CrosshairBot extends Crosshair
 		}
 		if(didChoose == false)
 		{
-			if((int) (Math.random() * 5) == 0 || (this.distanceToCenters(scrub) < tempDist && (int) (Math.random() * 2) == 0))
+			if((int) (Math.random() * 5) == 0 || (this.distanceToCenters(scrub) < tempDist && (int) (Math.random() * 10) >3 ))
 			{
 				chosen = scrub;
 				tempDist = this.distanceTo(scrub);

@@ -41,7 +41,7 @@ public class ScrubFrame extends JFrame
 			crosshairs[i].spotlight();
 			
 		}
-		if(System.currentTimeMillis() - lastTime > 250)
+		if(System.currentTimeMillis() - lastTime > 150)
 		{
 			Scrub newScrub = new Scrub(lib);
 			panel.add(newScrub);

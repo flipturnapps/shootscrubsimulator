@@ -33,6 +33,12 @@ public class Scrub extends PositionSprite
 		g.drawImage(scrubImage, x, y, width, height, null);
 	}
 
+	public void setVisible(boolean b)
+	{
+		super.setVisible(b);
+		if(!b)
+		scrubImage = null;
+	}
 
 	public int getId() {
 		return id;
