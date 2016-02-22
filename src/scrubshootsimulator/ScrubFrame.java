@@ -1,5 +1,7 @@
 package scrubshootsimulator;
 
+import java.io.File;
+
 import javax.swing.JFrame;
 
 import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
@@ -18,7 +20,7 @@ public class ScrubFrame extends JFrame
 		panel.add(crosshair);
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		lib = new ScrubbiestScrubLib();
+		lib = new UrlListScrubLib(new File("res/warrens.txt"));
 		firstScrub = new Scrub(lib);
 		firstScrub.setX(20);
 		firstScrub.setY(20);
