@@ -36,6 +36,7 @@ public abstract class Crosshair extends PositionSprite
 		if(!madeScorebar)
 		{
 			this.getPanel().add(new ScoreBar());
+			this.madeScorebar = true;
 		}
 		Color maiColor = this.getCrosshairColor();
 		if(attacking())

@@ -68,5 +68,6 @@ public class ScrubFrame extends JFrame
 			}
 			
 		}
+		this.setTitle(panel.getSprites().size()+"");
 	}
 }
