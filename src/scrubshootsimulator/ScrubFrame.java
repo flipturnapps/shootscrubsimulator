@@ -21,7 +21,7 @@ public class ScrubFrame extends JFrame
 		panel.add(player);
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		lib = new UrlListScrubLib(new File("res/warrens.txt"));
+		lib = new UrlListScrubLib(new File("warrens.txt"));
 		firstScrub = new Scrub(lib);
 		firstScrub.setX(20);
 		firstScrub.setY(20);

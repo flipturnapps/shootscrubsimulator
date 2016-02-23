@@ -23,9 +23,9 @@ public class UrlListScrubLib implements ScrubLibrary
 	private boolean failure;
 	public UrlListScrubLib(File inputFile)
 	{
-		//this.readUrlsFromFile(inputFile);
-		count = 5;
-		outputDir = new File(FileHelper.fileInDir(FileHelper.getAppDataDir("flipturnapps", "shootscrubsimulator"), inputFile.getName().replace('.', '-')));
+		this.readUrlsFromFile(inputFile);
+		//count = 5;
+		//outputDir = new File(FileHelper.fileInDir(FileHelper.getAppDataDir("flipturnapps", "shootscrubsimulator"), inputFile.getName().replace('.', '-')));
 		
 	}
 	private void readUrlsFromFile(File resFile)
