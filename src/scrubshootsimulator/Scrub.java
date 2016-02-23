@@ -29,7 +29,7 @@ public class Scrub extends PositionSprite
 		id=staticid;
 		staticid++;
 		
-		int rand = (int) (Math.random() * 20);
+		int rand = (int) (Math.random() * 30);
 		if(rand == 0)
 		{
 			this.setSuper(true);

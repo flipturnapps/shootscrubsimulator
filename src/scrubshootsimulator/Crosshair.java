@@ -16,8 +16,8 @@ import javafx.scene.shape.Ellipse;
 
 public abstract class Crosshair extends PositionSprite 
 {
-	private static final double SPLIT_RANGE = 600;
-	private static final int SPLIT_COOLDOWN = 400;
+	public static final double SPLIT_RANGE = 700;
+	public static final int SPLIT_COOLDOWN = 400;
 	private static final int STROKE = 2;
 	private Color crosshairColor;
 	private int score;
