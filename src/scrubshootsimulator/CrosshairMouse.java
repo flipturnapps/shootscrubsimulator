@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 public class CrosshairMouse extends Crosshair 
 {
-	private static final double SPLIT_RANGE = 600;
-	private static final int SPLIT_COOLDOWN = 2000;
-	private boolean isSplitting;
+	
 	private int targetId;
-	private ArrayList<CrosshairZombie> zombies;
-	private long lastSplit;
+	
+	
 	
 	@Override
 	public boolean attacking() 
@@ -29,14 +27,8 @@ public class CrosshairMouse extends Crosshair
 			return true;
 		return false;
 	}
-	public void forEachScrub(Scrub scrub)
+	public void childForEachScrub(Scrub scrub)
 	{
-		if(this.isSplitting && this.distanceToCenters(scrub) < SPLIT_RANGE)
-		{
-			CrosshairZombie zzz = new CrosshairZombie(this,scrub);
-			this.getPanel().add(zzz);
-			zombies.add(zzz);
-		}
 		if(!this.getPanel().mouseDown() && this.collidingWithCircles(scrub))
 			this.setTarget(scrub);
 		if(this.getPanel().mouseDown() && this.collidingWithCircles(scrub) && this.targetIs(scrub))
@@ -44,29 +36,18 @@ public class CrosshairMouse extends Crosshair
 	}
 
 	@Override
-	public void spotlight() 
+	public void childSpotlight() 
 	{
-		boolean alreadySplit = false;
-		if(this.isSplitting)
-		{
-			this.isSplitting = false;
-		}
+		
 		this.setCenterX((int) getPanel().getMouseX());
 		this.setCenterY((int) getPanel().getMouseY());
-		if(!alreadySplit && !this.isSplitting && this.getPanel().rightMouseDown() && System.currentTimeMillis() - lastSplit > SPLIT_COOLDOWN)
-			splitAttack();
+		
 	}
 
-	private void splitAttack() 
+	public boolean wantsToUseAOE()
 	{
-		this.isSplitting = true;	
-		this.initZombies();
-		lastSplit = System.currentTimeMillis();
+		return this.getPanel().rightMouseDown();
 	}
 
-	private void initZombies() 
-	{
-		if(zombies == null)
-			zombies = new ArrayList<CrosshairZombie>();
-	}
+	
 }

@@ -2,9 +2,11 @@ package scrubshootsimulator;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.util.ArrayList;
 
 import com.flipturnapps.kevinLibrary.helper.KevinColor;
 import com.flipturnapps.kevinLibrary.sprite.PositionSprite;
@@ -14,13 +16,18 @@ import javafx.scene.shape.Ellipse;
 
 public abstract class Crosshair extends PositionSprite 
 {
-
+	private static final double SPLIT_RANGE = 600;
+	private static final int SPLIT_COOLDOWN = 400;
 	private static final int STROKE = 2;
 	private Color crosshairColor;
 	private int score;
 	private int id;
 	private static int idCount;
 	private boolean madeScorebar = false;
+	private boolean isSplitting;
+	private ArrayList<CrosshairZombie> zombies;
+	private long lastSplit;
+	private int aoeCharges = 1;
 	public Crosshair()
 	{
 		this.setOutsideAllowed(false);
@@ -29,6 +36,46 @@ public abstract class Crosshair extends PositionSprite
 		this.setLayer(2);
 		setId(idCount++);
 	}
+	private void splitAttack() 
+	{
+		this.isSplitting = true;	
+		this.initZombies();
+		setAoeCharges(getAoeCharges() - 1);
+		lastSplit = System.currentTimeMillis();
+	}
+
+	private void initZombies() 
+	{
+		if(zombies == null)
+			zombies = new ArrayList<CrosshairZombie>();
+	}
+	public void forEachScrub(Scrub scrub)
+	{
+		if(this.isSplitting && !scrub.isSuper() && this.distanceToCenters(scrub) < SPLIT_RANGE)
+		{
+			CrosshairZombie zzz = new CrosshairZombie(this,scrub);
+			this.getPanel().add(zzz);
+			zombies.add(zzz);
+		}
+		this.childForEachScrub(scrub);
+	}
+
+	protected abstract void childForEachScrub(Scrub scrub);
+	public void spotlight() 
+	{
+		boolean alreadySplit = false;
+		if(this.isSplitting)
+		{
+			this.isSplitting = false;
+		}
+		this.childSpotlight();
+		if(!alreadySplit && !this.isSplitting && wantsToUseAOE() && System.currentTimeMillis() - lastSplit > SPLIT_COOLDOWN && getAoeCharges() > 0)
+			splitAttack();
+
+	}
+
+	protected abstract void childSpotlight();
+	public abstract boolean wantsToUseAOE();
 
 	@Override
 	protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) 
@@ -42,36 +89,33 @@ public abstract class Crosshair extends PositionSprite
 		if(attacking())
 			maiColor = KevinColor.mix(this.getCrosshairColor(), Color.WHITE, .3);
 		g.setColor(maiColor);
-	
+
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(maiColor);
 		g2.setStroke(new BasicStroke(STROKE));
-		
+
 		g2.drawOval(this.getX(), this.getY(), width, height);
 		//g.drawOval(this.getX()+1, this.getY()+1, width-2, height-2);
 		///g.setColor(this.getPanel().getBackground());
 		///g.fillOval(this.getX()+STROKE, this.getY()+STROKE, width-(STROKE*2), height-(STROKE*2));        
-		
-		
+
+
 		{
-		g.fillRect(this.getCenterX()-STROKE/2, this.getCenterY()+1- this.getHeight()/2, STROKE, this.getHeight()-2);
-		g.fillRect(this.getCenterX()+1- this.getWidth()/2 , this.getCenterY()-STROKE/2, this.getWidth() -2, STROKE);
-		/*
-		else
-		{
-			CrosshairZombie cz = (CrosshairZombie) this;
-			Scrub scrub = cz.getChosen();
-			g.drawRect(scrub.getCenterX() - 10, scrub.getCenterY() - 10, 20, 20);
-			g2.drawString(x+","+y, scrub.getX(), scrub.getY());
+			g.fillRect(this.getCenterX()-STROKE/2, this.getCenterY()+1- this.getHeight()/2, STROKE, this.getHeight()-2);
+			g.fillRect(this.getCenterX()+1- this.getWidth()/2 , this.getCenterY()-STROKE/2, this.getWidth() -2, STROKE);
+			if(this.aoeCharges > 0 && !(this instanceof CrosshairZombie))
+			{
+				g2.setFont(new Font("Monospaced",Font.BOLD, 16));
+				g2.drawString(this.getAoeCharges()+"", x, y);
+			}
 		}
-		*/
-		}
+
 	}
 
 
 	public  abstract boolean attacking();
-	public abstract void spotlight();
-	public abstract void forEachScrub(Scrub scrub);
+	//public abstract void spotlight();
+	//public abstract void forEachScrub(Scrub scrub);
 
 	public Color getCrosshairColor() {
 		return crosshairColor;
@@ -93,17 +137,24 @@ public abstract class Crosshair extends PositionSprite
 		protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) {
 			g.setColor(getCrosshairColor());
 			g.fillRect(0, getId()*30, score*this.getPanelWidth()/100, 30);
-			
+
 		}
-		
+
 	}
 
 
-	public void attack(Scrub scrub)
+	public boolean attack(Scrub scrub)
 	{
-		if(scrub.isVisible())
-			score++;
+		boolean visible = scrub.isVisible();
 		scrub.setVisible(false);
+		if(visible)
+		{
+			score++;
+			if(scrub.isSuper())
+				this.aoeCharges++;
+			return true;
+		}
+		return false;		
 	}
 
 
@@ -122,5 +173,11 @@ public abstract class Crosshair extends PositionSprite
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getAoeCharges() {
+		return aoeCharges;
+	}
+	public void setAoeCharges(int aoeCharges) {
+		this.aoeCharges = aoeCharges;
 	}
 }

@@ -1,19 +1,13 @@
 package scrubshootsimulator;
 
-import java.awt.Color;
-import java.util.ArrayList;
-
 public abstract class CrosshairBot extends Crosshair 
 {
 	private Scrub chosen;
 	private long targetTime;
 	
-	private boolean didChoose;
-
+	private boolean didChoose;	
 	
-	
-	
-	public void spotlight()
+	public void childSpotlight()
 	{
 		setDidChoose(true);
 		if(getChosen() != null)

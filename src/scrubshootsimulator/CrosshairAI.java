@@ -12,7 +12,7 @@ public class CrosshairAI extends CrosshairBot
 	private double pow;
 	private double div;
 	private static ArrayList<Scrub> pickedScrubs;
-	private Color[] colors = new Color[]{Color.BLUE, Color.PINK, Color.CYAN, Color.MAGENTA, Color.GREEN};
+	private Color[] colors = new Color[]{Color.BLUE, Color.YELLOW, Color.CYAN, Color.DARK_GRAY, Color.GREEN, Color.ORANGE};
 	public CrosshairAI() 
 	{
 		if(pickedScrubs == null)
@@ -29,7 +29,7 @@ public class CrosshairAI extends CrosshairBot
 		double mod = Math.pow(this.distanceTo(getChosen()),getPow())/getDiv() ;
 		return mod;
 	}
-	public void forEachScrub(Scrub scrub)
+	public void childForEachScrub(Scrub scrub)
 	{
 		if(getChosen() == null || !getChosen().isVisible() || System.currentTimeMillis() - lastChoseTime > 10000)
 		{
@@ -58,7 +58,7 @@ public class CrosshairAI extends CrosshairBot
 	public void regenRand()
 	{
 		setPow(1.025 + Math.random()*0.1);
-		setDiv(7 * (Math.random()*.5 + 1) * 1.2 * 1/((getScore()/40)+.5));
+		setDiv(7 * (Math.random()*.5 + 1) * 2 * 1/((getScore()/120)+.5));
 	}
 	
 	public void setChosen(Scrub chosen) 
@@ -83,6 +83,12 @@ public class CrosshairAI extends CrosshairBot
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public boolean wantsToUseAOE() 
+	{
+		int rand = (int) (Math.random() * 500);
+		return rand == 0;
 	}
 	
 }
