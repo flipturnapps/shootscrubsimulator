@@ -3,15 +3,13 @@ package scrubshootsimulator;
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class CrosshairBot extends Crosshair 
+public class CrosshairBot extends CrosshairAI
 {
-	private Scrub chosen;
-	private long targetTime;
+	
 	private long lastChoseTime;
 	private boolean didChoose;
 	private double tempDist;
-	private double pow;
-	private double div;
+	
 	private static ArrayList<Scrub> pickedScrubs;
 	private Color[] colors = new Color[]{Color.BLUE, Color.PINK, Color.CYAN, Color.MAGENTA, Color.GREEN};
 	public CrosshairBot() 
@@ -33,7 +31,7 @@ public class CrosshairBot extends Crosshair
 			didChoose = false;
 			setChosen(scrub);
 			tempDist = this.distanceToCenters(getChosen());
-			targetTime = 0;
+			setTargetTime(0);
 			lastChoseTime = System.currentTimeMillis();
 			regenRand();
 		}
@@ -52,52 +50,15 @@ public class CrosshairBot extends Crosshair
 			}
 		}
 	}
-	private void regenRand()
+	public void regenRand()
 	{
-		pow = 1.025 + Math.random()*0.1;
-		div = 7 * (Math.random()*.5 + 1) * 1.2 * 1/((getScore()/40)+.5);
-		
+		setPow(1.025 + Math.random()*0.1);
+		setDiv(7 * (Math.random()*.5 + 1) * 1.2 * 1/((getScore()/40)+.5));
 	}
-	public void spotlight()
-	{
-		didChoose = true;
-		if(getChosen() != null)
-		{
-			if(getChosen().isVisible() == false)
-				return;
-			if(targetTime == 0 && this.distanceToCenters(getChosen())<(getChosen().getWidth()+0.0)/1)
-			{
-				targetTime = System.currentTimeMillis();
-				return;
-			}
-			if(targetTime != 0 && System.currentTimeMillis() - targetTime > 200)
-			{
-				this.attack(getChosen());
-				targetTime = 0;
-				return;
-			}
-			if(!attacking())
-				move();
-		}
-		
-	}
-	private void move() 
-	{
-		
-		double mod = Math.pow(this.distanceTo(getChosen()),pow)/div ;
-		
-		this.moveTowards(getChosen(), mod);
-	}
-	public boolean attacking()
-	{
-		return this.targetTime != 0;
-	}
-	public Scrub getChosen() {
-		return chosen;
-	}
+	
 	public void setChosen(Scrub chosen) 
 	{
-		this.chosen = chosen;
+		super.setChosen(chosen);
 		pickedScrubs.set(this.getId()-1, chosen);
 	}
 	
