@@ -20,6 +20,7 @@ public class Scrub extends PositionSprite
 	private float count;
 	private int xOffset;
 	private int yOffset;
+	private boolean purdy;
 
 	public Scrub(ScrubLibrary lib) 
 	{
@@ -33,10 +34,15 @@ public class Scrub extends PositionSprite
 		if(rand == 0)
 		{
 			this.setSuper(true);
+			rand = (int) (Math.random() * 5);
+			if(rand ==0)
+			{
+				purdy = true;
 			xOffset = 3;
 			yOffset = 3;
 			this.setWidth(this.getWidth() + 6);
 			this.setWidth(this.getHeight() + 6);
+			}
 		}
 			
 		
@@ -47,7 +53,7 @@ public class Scrub extends PositionSprite
 	protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) 
 	{
 		g.drawImage(scrubImage, x+xOffset, yOffset+y, width-2*xOffset, height-2*yOffset, null);
-		if(this.isSuper())
+		if(purdy)
 		{
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(new Color(Color.HSBtoRGB(count, 1, 1)));

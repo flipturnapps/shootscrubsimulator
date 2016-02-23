@@ -27,8 +27,9 @@ public class CrosshairAI extends CrosshairBot
 	}
 	public double getSpeed() 
 	{
-		
-			return 4;
+		double pow = 1.05;
+		double mult = .067;
+			return Math.pow(this.distanceToCenters(getChosen()), pow)*mult;
 	}
 	public void childForEachScrub(Scrub scrub)
 	{
@@ -49,9 +50,11 @@ public class CrosshairAI extends CrosshairBot
 			boolean closest = this.distanceToCenters(scrub) < tempDist;
 			boolean chosenBefore = pickedScrubs.contains(scrub);
 			boolean isSuper = scrub.isSuper();
-			if((isSuper && random && false) || ((closest && random2) && (!chosenBefore || random)))
+			if((isSuper && random && false ) || ((closest && random2) && (!chosenBefore || random)))
 			{
 				setChosen(scrub);
+				if(isSuper)
+					this.setDidChoose(true);
 				if(closest)
 					tempDist = this.distanceTo(scrub);
 			}
@@ -74,7 +77,7 @@ public class CrosshairAI extends CrosshairBot
 	@Override
 	public boolean wantsToUseAOE() 
 	{
-		int r = (int) (Math.random() * 300);
+		int r = (int) (Math.random() * 100);
 		if(r==0)
 		{
 			int count = 0;
@@ -88,7 +91,7 @@ public class CrosshairAI extends CrosshairBot
 					continue;
 				if( this.distanceToCenters(scrub) < SPLIT_RANGE)
 					count++;
-				if(count > 15)
+				if(count >4 )
 					return true;
 			}
 		}

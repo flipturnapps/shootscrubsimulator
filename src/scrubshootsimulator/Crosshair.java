@@ -16,9 +16,9 @@ import javafx.scene.shape.Ellipse;
 
 public abstract class Crosshair extends PositionSprite 
 {
-	public static final double SPLIT_RANGE = 700;
+	public static final double SPLIT_RANGE = 300;
 	public static final int SPLIT_COOLDOWN = 400;
-	private static final int STROKE = 2;
+	private static final int STROKE = 3;
 	private Color crosshairColor;
 	private int score;
 	private int id;
@@ -71,7 +71,11 @@ public abstract class Crosshair extends PositionSprite
 		this.childSpotlight();
 		if(!alreadySplit && !this.isSplitting && wantsToUseAOE() && System.currentTimeMillis() - lastSplit > SPLIT_COOLDOWN && getAoeCharges() > 0)
 			splitAttack();
-
+		if(this.getScore() > 50)
+{
+			this.getPanel().setBackground(KevinColor.mix(this.crosshairColor, this.getPanel().getBackground()));
+			this.setScore(0);
+}
 	}
 
 	protected abstract void childSpotlight();
@@ -136,7 +140,7 @@ public abstract class Crosshair extends PositionSprite
 		@Override
 		protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) {
 			g.setColor(getCrosshairColor());
-			g.fillRect(0, getId()*30, score*this.getPanelWidth()/100, 30);
+			g.fillRect(0, getId()*30, score*this.getPanelWidth()/50, 30);
 
 		}
 
