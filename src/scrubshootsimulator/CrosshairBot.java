@@ -55,7 +55,7 @@ public class CrosshairBot extends Crosshair
 	private void regenRand()
 	{
 		pow = 1.025 + Math.random()*0.1;
-		div = 7 * (Math.random()*.5 + 1) * 1.3;
+		div = 7 * (Math.random()*.5 + 1) * 1.2 * 1/((getScore()/40)+.5);
 		
 	}
 	public void spotlight()

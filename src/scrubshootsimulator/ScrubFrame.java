@@ -14,7 +14,7 @@ public class ScrubFrame extends JFrame
 	private SpritePanel panel;
 	private ScrubLibrary lib;
 	private long lastTime = 0;
-	private Crosshair[] crosshairs = new Crosshair[6];
+	private Crosshair[] crosshairs = new Crosshair[5];
 	public ScrubFrame()
 	{
 		panel = new SpritePanel();
