@@ -14,12 +14,10 @@ public class ScrubFrame extends JFrame
 	private SpritePanel panel;
 	private ScrubLibrary lib;
 	private long lastTime = 0;
-	private Crosshair[] crosshairs = new Crosshair[5];
 	public ScrubFrame()
 	{
 		panel = new SpritePanel();
 		player = new CrosshairMouse();
-		crosshairs[0] = player;
 		panel.add(player);
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,20 +26,25 @@ public class ScrubFrame extends JFrame
 		firstScrub.setX(20);
 		firstScrub.setY(20);
 		panel.add(firstScrub);
-		for(int i = 1; i < crosshairs.length; i++)
+		for(int i = 1; i < 10; i++)
 		{
-			crosshairs[i] = new CrosshairBot();
-			panel.add(crosshairs[i]);
+			panel.add(new CrosshairAI());
 		}
 		this.setSize(600, 600);
 	}
 	public void doChecks()
 	{
-		for (int i = 0; i < crosshairs.length; i++) {
-			crosshairs[i].spotlight();
-			
+		for(int y = 0; y < panel.getSprites().size(); y++)
+		{
+			Crosshair cx = null;
+			if(panel.getSprites().get(y) instanceof Crosshair)
+				cx = (Crosshair) panel.getSprites().get(y);
+			else
+				continue;
+			cx.spotlight();
+
 		}
-		if(System.currentTimeMillis() - lastTime > 150)
+		if(System.currentTimeMillis() - lastTime > 100)
 		{
 			Scrub newScrub = new Scrub(lib);
 			panel.add(newScrub);
@@ -57,9 +60,14 @@ public class ScrubFrame extends JFrame
 				scrub = (Scrub) panel.getSprites().get(i);
 			else
 				continue;
-			for (int y = 0; y < crosshairs.length; y++) {
-				crosshairs[y].forEachScrub(scrub);
-				
+			for(int y = 0; y < panel.getSprites().size(); y++)
+			{
+				Crosshair cx = null;
+				if(panel.getSprites().get(y) instanceof Crosshair)
+					cx = (Crosshair) panel.getSprites().get(y);
+				else
+					continue;
+				cx.forEachScrub(scrub);
 			}
 			if(!scrub.isVisible())
 			{

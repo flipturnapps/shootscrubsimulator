@@ -33,7 +33,7 @@ public abstract class Crosshair extends PositionSprite
 	@Override
 	protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) 
 	{
-		if(!madeScorebar)
+		if(!madeScorebar && ! (this instanceof CrosshairZombie))
 		{
 			this.getPanel().add(new ScoreBar());
 			this.madeScorebar = true;
@@ -52,9 +52,20 @@ public abstract class Crosshair extends PositionSprite
 		///g.setColor(this.getPanel().getBackground());
 		///g.fillOval(this.getX()+STROKE, this.getY()+STROKE, width-(STROKE*2), height-(STROKE*2));        
 		
+		
+		{
 		g.fillRect(this.getCenterX()-STROKE/2, this.getCenterY()+1- this.getHeight()/2, STROKE, this.getHeight()-2);
 		g.fillRect(this.getCenterX()+1- this.getWidth()/2 , this.getCenterY()-STROKE/2, this.getWidth() -2, STROKE);
-		
+		/*
+		else
+		{
+			CrosshairZombie cz = (CrosshairZombie) this;
+			Scrub scrub = cz.getChosen();
+			g.drawRect(scrub.getCenterX() - 10, scrub.getCenterY() - 10, 20, 20);
+			g2.drawString(x+","+y, scrub.getX(), scrub.getY());
+		}
+		*/
+		}
 	}
 
 

@@ -3,93 +3,86 @@ package scrubshootsimulator;
 import java.awt.Color;
 import java.util.ArrayList;
 
-public abstract class CrosshairAI extends Crosshair 
+public class CrosshairAI extends CrosshairBot
 {
-	private Scrub chosen;
-	private long targetTime;
+	
+	private long lastChoseTime;
+	private boolean didChoose;
+	private double tempDist;
 	private double pow;
 	private double div;
-	private boolean didChoose;
-
-	
-	public abstract void regenRand();
-	
-	public void spotlight()
+	private static ArrayList<Scrub> pickedScrubs;
+	private Color[] colors = new Color[]{Color.BLUE, Color.PINK, Color.CYAN, Color.MAGENTA, Color.GREEN};
+	public CrosshairAI() 
 	{
-		setDidChoose(true);
-		if(getChosen() != null)
+		if(pickedScrubs == null)
+			pickedScrubs = new ArrayList<Scrub>();
+		while(pickedScrubs.size() < this.getId())
 		{
-			if(getChosen().isVisible() == false)
-				return;
-			if(getTargetTime() == 0 && this.distanceToCenters(getChosen())<(getChosen().getWidth()+0.0)/1)
-			{
-				setTargetTime(System.currentTimeMillis());
-				return;
-			}
-			if(getTargetTime() != 0 && System.currentTimeMillis() - getTargetTime() > getClickDelay())
-			{
-				this.attack(getChosen());
-				setTargetTime(0);
-				return;
-			}
-			if(!attacking())
-				move();
+			pickedScrubs.add(null);
 		}
-		
+		this.setCrosshairColor(colors[(getId()-1)%colors.length]);
+		this.setX((int) (Math.random() * 500));
+		this.setY((int) (Math.random() *500));
 	}
-
-	private int getClickDelay() 
-	{
-		return 200;
-	}
-	private void move() 
-	{
-		
+	public double getSpeed() {
 		double mod = Math.pow(this.distanceTo(getChosen()),getPow())/getDiv() ;
-		this.moveTowards(getChosen(), mod);
+		return mod;
 	}
-	public boolean attacking()
+	public void forEachScrub(Scrub scrub)
 	{
-		return this.getTargetTime() != 0;
+		if(getChosen() == null || !getChosen().isVisible() || System.currentTimeMillis() - lastChoseTime > 10000)
+		{
+			didChoose = false;
+			setChosen(scrub);
+			tempDist = this.distanceToCenters(getChosen());
+			setTargetTime(0);
+			lastChoseTime = System.currentTimeMillis();
+			regenRand();
+		}
+		if(didChoose == false)
+		{
+			
+			boolean random = (int) (Math.random() * 5) == 0;
+			boolean random2 = (int) (Math.random() * 10) >3;
+			boolean closest = this.distanceToCenters(scrub) < tempDist;
+			boolean chosenBefore = pickedScrubs.contains(scrub);
+			if((closest && random2) && (!chosenBefore || random))
+			{
+				setChosen(scrub);
+				if(closest)
+					tempDist = this.distanceTo(scrub);
+			}
+		}
 	}
-	public Scrub getChosen() {
-		return chosen;
+	public void regenRand()
+	{
+		setPow(1.025 + Math.random()*0.1);
+		setDiv(7 * (Math.random()*.5 + 1) * 1.2 * 1/((getScore()/40)+.5));
 	}
+	
 	public void setChosen(Scrub chosen) 
 	{
-		this.chosen = chosen;
+		super.setChosen(chosen);
+		pickedScrubs.set(this.getId()-1, chosen);
 	}
-
-	public boolean isDidChoose() {
-		return didChoose;
-	}
-
-	public void setDidChoose(boolean didChoose) {
-		this.didChoose = didChoose;
-	}
-
-	public long getTargetTime() {
-		return targetTime;
-	}
-
-	public void setTargetTime(long targetTime) {
-		this.targetTime = targetTime;
-	}
-
 	public double getPow() {
 		return pow;
 	}
-
 	public void setPow(double pow) {
 		this.pow = pow;
 	}
-
 	public double getDiv() {
 		return div;
 	}
-
 	public void setDiv(double div) {
 		this.div = div;
+	}
+	@Override
+	protected void interrupted() 
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
