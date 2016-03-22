@@ -26,7 +26,7 @@ public class ScrubFrame extends JFrame
 		firstScrub.setX(20);
 		firstScrub.setY(20);
 		panel.add(firstScrub);
-		for(int i = 1; i < 10; i++)
+		for(int i = 1; i < 2; i++)
 		{
 			panel.add(new CrosshairAI());
 		}
