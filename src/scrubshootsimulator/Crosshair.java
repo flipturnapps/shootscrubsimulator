@@ -5,14 +5,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.util.ArrayList;
 
 import com.flipturnapps.kevinLibrary.helper.KevinColor;
 import com.flipturnapps.kevinLibrary.sprite.PositionSprite;
 import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
-
-import javafx.scene.shape.Ellipse;
 
 public abstract class Crosshair extends PositionSprite 
 {
