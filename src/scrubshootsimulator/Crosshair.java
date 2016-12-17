@@ -24,7 +24,7 @@ public abstract class Crosshair extends PositionSprite
 	private boolean isSplitting;
 	private ArrayList<CrosshairZombie> zombies;
 	private long lastSplit;
-	private int aoeCharges = 1;
+	private int aoeCharges = 0;
 	public Crosshair()
 	{
 		this.setOutsideAllowed(false);
