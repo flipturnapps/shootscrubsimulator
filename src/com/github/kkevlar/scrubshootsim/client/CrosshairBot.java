@@ -1,4 +1,4 @@
-package scrubshootsimulator;
+package com.github.kkevlar.scrubshootsim.client;
 
 public abstract class CrosshairBot extends Crosshair 
 {

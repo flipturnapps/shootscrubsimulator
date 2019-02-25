@@ -1,4 +1,4 @@
-package scrubshootsimulator;
+package com.github.kkevlar.scrubshootsim.client;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;

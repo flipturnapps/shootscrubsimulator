@@ -1,4 +1,4 @@
-package scrubshootsimulator;
+package com.github.kkevlar.scrubshootsim.client;
 
 import java.awt.Color;
 import java.util.ArrayList;
