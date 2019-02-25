@@ -21,7 +21,16 @@ public class ShootClient extends Socket implements Runnable
 		super("kevinkellar.com",25567);
 		setCrosshairPoses(new ArrayList<>());
 		new Thread(this).start();
+		mousePos = new Position(0,0);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		new Thread(this).start();
 		getCrosshairPoses().add(new Position(0,0));
+		
 	}
 	public ArrayList<Position> getCrosshairPoses() {
 		return crosshairPoses;
@@ -71,12 +80,13 @@ public class ShootClient extends Socket implements Runnable
 						last = System.currentTimeMillis();
 						writer.println(mousePos.toString());
 						writer.flush();
+						System.out.println(mousePos.toString());
 					}
 				}
 			}
 			catch(Exception ex)
 			{
-
+				ex.printStackTrace();
 			}
 		}
 

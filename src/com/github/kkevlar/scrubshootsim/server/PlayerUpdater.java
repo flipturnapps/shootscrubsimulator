@@ -16,7 +16,7 @@ public class PlayerUpdater implements Runnable {
 		long last = System.currentTimeMillis();
 		while(true)
 		{
-			if(System.currentTimeMillis() - last > 1000)
+			if(System.currentTimeMillis() - last > 100)
 			{
 				last = System.currentTimeMillis();
 				String comb = "";
@@ -24,6 +24,7 @@ public class PlayerUpdater implements Runnable {
 				{
 					comb += player.getPos() + "~";
 				}
+				comb = comb.substring(0, comb.length()-1);
 				for(Player player : server.getPlayers())
 				{
 					player.getWriter().println(comb);

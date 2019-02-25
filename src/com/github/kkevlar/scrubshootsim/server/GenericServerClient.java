@@ -35,6 +35,7 @@ public abstract class GenericServerClient implements Runnable
             } catch (IOException e) {
               this.isConnected = false;
                 this.disconnect();
+                	System.out.println("aaa disconnect");
             }
 
             if (s != null)
