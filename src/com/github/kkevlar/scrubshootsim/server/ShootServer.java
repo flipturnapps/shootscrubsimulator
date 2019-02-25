@@ -2,7 +2,6 @@ package com.github.kkevlar.scrubshootsim.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,13 +21,13 @@ public class ShootServer extends ServerSocket implements Runnable
 
 	public void run()
 	{
+		int id = 0;
 		while (up)
 		{
 			Socket socket = null;
 			try {
 				socket = accept();
-//				System.out.println("ACCEPTED?");
-				Player nuser = new Player(this,socket);
+				Player nuser = new Player(id++,this,socket);
 				users.add(nuser);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -36,7 +35,7 @@ public class ShootServer extends ServerSocket implements Runnable
 		}
 	}
 
-	public List<Player> getUsers() {
+	public List<Player> getPlayers() {
 		return users;
 	}
 }

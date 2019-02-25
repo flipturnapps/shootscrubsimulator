@@ -6,7 +6,7 @@ public class ShootServerMain
     public static void main (String[] args) throws IOException 
     {
 
-        ShootServer s = new ShootServer(20000);
+        ShootServer s = new ShootServer(25567);
 		/*
 		 * while (true) { for (String key : s.getRooms().keySet()) { Room room =
 		 * s.getRooms().get(key); if(!room.isHasPrintedNominations() &&
