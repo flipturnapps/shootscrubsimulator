@@ -7,6 +7,7 @@ public class PlayerUpdater implements Runnable {
 	public PlayerUpdater(ShootServer server)
 	{
 		this.server = server;
+		new Thread(this).start();
 	}
 	
 	@Override
