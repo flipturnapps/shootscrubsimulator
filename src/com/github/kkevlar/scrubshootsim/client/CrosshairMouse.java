@@ -43,7 +43,7 @@ public class CrosshairMouse extends Crosshair
 	public void childSpotlight() 
 	{
 		setMousePos(new Position((int) getPanel().getMouseX(),(int) getPanel().getMouseY()));
-		client.sendMousePos(getMousePos());
+		client.setMousePos(getMousePos());
 		Position pos = client.getCrosshairPoses().get(0);
 		this.setCenterX(pos.getX());
 		this.setCenterY(pos.getY());

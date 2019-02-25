@@ -15,8 +15,8 @@ public class ShootClient extends Socket implements Runnable
 	private boolean initReader = false;
 	private boolean initWriter = false;
 	private Position mousePos;
-	
-	public ShootClient() throws UnknownHostException, IOException 
+
+	public ShootClient() throws UnknownHostException, IOException
 	{
 		super("kevinkellar.com",25567);
 		setCrosshairPoses(new ArrayList<>());
@@ -72,11 +72,13 @@ public class ShootClient extends Socket implements Runnable
 						writer.flush();
 					}
 				}
-				catch(Exception ex)
-				{
+			}
+			catch(Exception ex)
+			{
 
-				}
+			}
 		}
+
 	}
 	public void setMousePos(Position mousePos)
 	{

@@ -1,6 +1,8 @@
 package com.github.kkevlar.scrubshootsim.client;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
 
@@ -12,11 +14,21 @@ public class ScrubFrame extends JFrame
 	private Scrub firstScrub;
 	private SpritePanel panel;
 	private ScrubLibrary lib;
+	private ShootClient client;
 	private long lastTime = 0;
 	public ScrubFrame()
 	{
 		panel = new SpritePanel();
-		player = new CrosshairMouse();
+		try {
+			client = new ShootClient();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		player = new CrosshairMouse(client);
 		panel.add(player);
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
