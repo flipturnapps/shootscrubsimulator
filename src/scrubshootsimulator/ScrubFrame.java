@@ -1,6 +1,5 @@
 package scrubshootsimulator;
 
-import java.awt.Color;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -26,7 +25,7 @@ public class ScrubFrame extends JFrame
 		firstScrub.setX(20);
 		firstScrub.setY(20);
 		panel.add(firstScrub);
-		for(int i = 1; i < 2; i++)
+		for(int i = 1; i < 3; i++)
 		{
 			panel.add(new CrosshairAI());
 		}
@@ -44,7 +43,7 @@ public class ScrubFrame extends JFrame
 			cx.spotlight();
 
 		}
-		if(System.currentTimeMillis() - lastTime > 250)
+		if(System.currentTimeMillis() - lastTime > 85)
 		{
 			Scrub newScrub = new Scrub(lib);
 			panel.add(newScrub);

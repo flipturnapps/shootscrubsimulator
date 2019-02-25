@@ -30,11 +30,11 @@ public class Scrub extends PositionSprite
 		id=staticid;
 		staticid++;
 		
-		int rand = (int) (Math.random() * 30);
+		int rand = (int) (Math.random() * 15);
 		if(rand == 0)
 		{
 			this.setSuper(true);
-			rand = (int) (Math.random() * 5);
+			rand = (int) (Math.random() * 2);
 			if(rand ==0)
 			{
 				purdy = true;
@@ -52,6 +52,8 @@ public class Scrub extends PositionSprite
 	@Override
 	protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) 
 	{
+//		g.setColor(Color.BLACK);
+//		g.fillRect(x, y, width, height);
 		g.drawImage(scrubImage, x+xOffset, yOffset+y, width-2*xOffset, height-2*yOffset, null);
 		if(purdy)
 		{

@@ -28,7 +28,7 @@ public class CrosshairAI extends CrosshairBot
 	public double getSpeed() 
 	{
 		double pow = 1.05;
-		double mult = .047;
+		double mult = .067;
 			return Math.pow(this.distanceToCenters(getChosen()), pow)*mult;
 	}
 	public void childForEachScrub(Scrub scrub)

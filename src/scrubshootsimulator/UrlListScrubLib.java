@@ -16,7 +16,7 @@ import com.flipturnapps.kevinLibrary.helper.TextFileHelper;
 public class UrlListScrubLib implements ScrubLibrary
 {
 	private static final String NOPE = "http://vignette2.wikia.nocookie.net/thefutureofeuropes/images/5/5d/Nope.png/revision/latest?cb=20140916154703";
-	private static final boolean LOAD_INTO_RAM = false;
+	private static final boolean LOAD_INTO_RAM = true;
 	private File outputDir;
 	private Image[] scrubs;
 	private int count;
@@ -26,7 +26,7 @@ public class UrlListScrubLib implements ScrubLibrary
 		//getClass()//this.readUrlsFromFile(inputFile);
 		count = 5;
 		outputDir = new File(FileHelper.fileInDir(FileHelper.getAppDataDir("flipturnapps", "shootscrubsimulator"), inputFile.getName().replace('.', '-')));
-		
+		readUrlsFromFile(inputFile);
 	}
 	private void readUrlsFromFile(File resFile)
 	{
@@ -91,8 +91,6 @@ public class UrlListScrubLib implements ScrubLibrary
 	@Override
 	public Image getScrub() 
 	{
-		if(failure)
-			return getImageFromUrl(NOPE);
 		int i = (int) (Math.random() * count);
 		if(LOAD_INTO_RAM)
 			return scrubs[i];
