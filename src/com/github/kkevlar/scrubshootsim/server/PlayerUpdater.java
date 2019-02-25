@@ -16,7 +16,7 @@ public class PlayerUpdater implements Runnable {
 		long last = System.currentTimeMillis();
 		while(true)
 		{
-			if(System.currentTimeMillis() - last > 100)
+			if(System.currentTimeMillis() - last > 25)
 			{
 				last = System.currentTimeMillis();
 				String comb = "";

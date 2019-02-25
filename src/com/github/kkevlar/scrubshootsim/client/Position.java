@@ -11,9 +11,22 @@ public class Position {
 	}
 	public Position(String string) 
 	{
-		String[] splits = string.split(",");
-		x = Integer.parseInt(splits[0]);
-		y = Integer.parseInt(splits[1]);
+		int tempX;
+		int tempY;
+		try
+		{
+			String[] splits = string.split(",");
+		
+		tempX = Integer.parseInt(splits[0]);
+		tempY = Integer.parseInt(splits[1]);
+		}
+		catch (Exception ex)
+		{
+			tempX = -1;
+			tempY = -1;
+		}
+		x = tempX;
+		y = tempY;
 	}
 	public int getX() {
 		return x;

@@ -30,7 +30,7 @@ public class ShootClient extends Socket implements Runnable
 		}
 		new Thread(this).start();
 		getCrosshairPoses().add(new Position(0,0));
-		
+
 	}
 	public ArrayList<Position> getCrosshairPoses() {
 		return crosshairPoses;
@@ -44,55 +44,65 @@ public class ShootClient extends Socket implements Runnable
 		if(!initReader)
 		{
 			initReader = true;
+			BufferedReader reader = null;
 			try
 			{
-				BufferedReader reader = new BufferedReader(new InputStreamReader(this.getInputStream()));
-				while(true)
-				{
-					String line = null;
-					line = reader.readLine();
-					if(line != null)
-					{
-						String[] splits = line.split("~");
-						for(int i = 0; i < splits.length; i++)
-						{
-							crosshairPoses.set(i, new Position(splits[i]));
-						}
-					}
-				}
-			}
-			catch(Exception ex)
-			{
-
-			}
-		}
-		if(!initWriter)
-		{
-			initWriter = true;
-			try
-			{
-				long last = System.currentTimeMillis();
-				PrintWriter writer = new PrintWriter(this.getOutputStream());
-				while(true)
-				{
-					if(System.currentTimeMillis() - last > 100)
-					{
-						last = System.currentTimeMillis();
-						writer.println(mousePos.toString());
-						writer.flush();
-						System.out.println(mousePos.toString());
-					}
-				}
+				reader = new BufferedReader(new InputStreamReader(this.getInputStream()));
 			}
 			catch(Exception ex)
 			{
 				ex.printStackTrace();
 			}
-		}
+			while(reader != null)
+			{
+				String line = null;
+				try
+				{
+					line = reader.readLine();
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+				if(line != null)
+				{
+					String[] splits = line.split("~");
+					for(int i = 0; i < splits.length; i++)
+					{
+						crosshairPoses.set(i, new Position(splits[i]));
+					}
+				}
+			}
+	
 
 	}
-	public void setMousePos(Position mousePos)
+	if(!initWriter)
 	{
-		this.mousePos = mousePos;
-	}	
+		initWriter = true;
+		try
+		{
+			long last = System.currentTimeMillis();
+			PrintWriter writer = new PrintWriter(this.getOutputStream());
+			while(true)
+			{
+				if(System.currentTimeMillis() - last > 25)
+				{
+					last = System.currentTimeMillis();
+					writer.println(mousePos.toString());
+					writer.flush();
+					System.out.println(mousePos.toString());
+				}
+			}
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+
+}
+public void setMousePos(Position mousePos)
+{
+	this.mousePos = mousePos;
+}	
 }
