@@ -6,8 +6,13 @@ public class CrosshairMouse extends Crosshair
 {
 	
 	private int targetId;
+	private Position mousePos;
+	private ShootClient client;
 	
-	
+	public CrosshairMouse(ShootClient client)
+	{
+		this.setClient(client);
+	}
 	
 	@Override
 	public boolean attacking() 
@@ -19,7 +24,6 @@ public class CrosshairMouse extends Crosshair
 	{
 		this.targetId = scrub.getId();
 	}
-
 
 	public boolean targetIs(Scrub scrub) 
 	{
@@ -38,15 +42,32 @@ public class CrosshairMouse extends Crosshair
 	@Override
 	public void childSpotlight() 
 	{
-		
-		this.setCenterX((int) getPanel().getMouseX());
-		this.setCenterY((int) getPanel().getMouseY());
-		
+		setMousePos(new Position((int) getPanel().getMouseX(),(int) getPanel().getMouseY()));
+		client.sendMousePos(getMousePos());
+		Position pos = client.getCrosshairPoses().get(0);
+		this.setCenterX(pos.getX());
+		this.setCenterY(pos.getY());
 	}
 
 	public boolean wantsToUseAOE()
 	{
 		return this.getPanel().rightMouseDown();
+	}
+
+	public Position getMousePos() {
+		return mousePos;
+	}
+
+	private void setMousePos(Position mousePos) {
+		this.mousePos = mousePos;
+	}
+
+	public ShootClient getClient() {
+		return client;
+	}
+
+	private void setClient(ShootClient client) {
+		this.client = client;
 	}
 
 	

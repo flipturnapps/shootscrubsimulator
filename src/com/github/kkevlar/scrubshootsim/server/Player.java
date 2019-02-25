@@ -5,20 +5,24 @@ import java.net.Socket;
 
 public class Player extends GenericServerClient {
 
-	public Player(ShootServer server, Socket s) throws IOException 
+	private String pos;
+	private int id;
+	
+	public Player(int id, ShootServer server, Socket s) throws IOException 
 	{
 		super(server, s);
+		this.setId(id);
 	}
 
 	@Override
-	public void clientInit() {
-		// TODO Auto-generated method stub
-
+	public void clientInit() 
+	{
+		//give em id?
 	}
 
 	@Override
 	public void incomingMessage(String read) {
-		// TODO Auto-generated method stub
+		pos = read;
 
 	}
 
@@ -26,6 +30,22 @@ public class Player extends GenericServerClient {
 	public void clientDisconnected() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String getPos() {
+		return pos;
+	}
+
+	public void setPos(String pos) {
+		this.pos = pos;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	private void setId(int id) {
+		this.id = id;
 	}
 
 }
