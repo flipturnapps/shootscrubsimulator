@@ -7,6 +7,7 @@ public class ShootServerMain
     {
 
         ShootServer s = new ShootServer(25567);
+        PlayerUpdater u = new PlayerUpdater(s);
 		/*
 		 * while (true) { for (String key : s.getRooms().keySet()) { Room room =
 		 * s.getRooms().get(key); if(!room.isHasPrintedNominations() &&

@@ -17,6 +17,7 @@ public class ShootServer extends ServerSocket implements Runnable
 		up = true;
 		users = new LinkedList<Player>();
 		new Thread(this).start();
+		
 	}
 
 	public void run()
