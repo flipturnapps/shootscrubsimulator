@@ -28,6 +28,7 @@ public class PlayerUpdater implements Runnable {
 					player.getWriter().println(comb);
 					player.getWriter().flush();
 				}
+				System.out.println(comb);
 			}
 		}
 	}

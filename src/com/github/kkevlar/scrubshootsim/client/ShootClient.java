@@ -21,6 +21,7 @@ public class ShootClient extends Socket implements Runnable
 		super("kevinkellar.com",25567);
 		setCrosshairPoses(new ArrayList<>());
 		new Thread(this).start();
+		getCrosshairPoses().add(new Position(0,0));
 	}
 	public ArrayList<Position> getCrosshairPoses() {
 		return crosshairPoses;
