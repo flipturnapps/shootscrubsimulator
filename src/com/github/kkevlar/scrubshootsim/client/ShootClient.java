@@ -20,6 +20,8 @@ public class ShootClient extends Socket implements Runnable
 	{
 		super("kevinkellar.com",25567);
 		setCrosshairPoses(new ArrayList<>());
+		while(crosshairPoses.size() < 20)
+			crosshairPoses.add(new Position(-1,-1));
 		new Thread(this).start();
 		mousePos = new Position(0,0);
 		try {
@@ -67,6 +69,7 @@ public class ShootClient extends Socket implements Runnable
 				if(line != null)
 				{
 					String[] splits = line.split("~");
+					
 					for(int i = 0; i < splits.length; i++)
 					{
 						crosshairPoses.set(i, new Position(splits[i]));
