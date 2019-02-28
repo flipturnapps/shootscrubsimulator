@@ -18,9 +18,6 @@ public abstract class Crosshair extends PositionSprite
 	private static final int STROKE = 3;
 	private Color crosshairColor;
 	private int score;
-	private int id;
-	private static int idCount;
-	private boolean madeScorebar = false;
 	private boolean isSplitting;
 	private ArrayList<CrosshairZombie> zombies;
 	private long lastSplit;
@@ -29,9 +26,7 @@ public abstract class Crosshair extends PositionSprite
 	{
 		this.setOutsideAllowed(false);
 		this.setAll(20, 20, 40, 40);
-		this.setCrosshairColor(Color.RED);
 		this.setLayer(2);
-		setId(idCount++);
 	}
 	private void splitAttack() 
 	{
@@ -81,11 +76,7 @@ public abstract class Crosshair extends PositionSprite
 	@Override
 	protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) 
 	{
-		if(!madeScorebar && ! (this instanceof CrosshairZombie))
-		{
-			this.getPanel().add(new ScoreBar());
-			this.madeScorebar = true;
-		}
+		
 		Color maiColor = this.getCrosshairColor();
 		if(attacking())
 			maiColor = KevinColor.mix(this.getCrosshairColor(), Color.WHITE, .3);
@@ -128,22 +119,6 @@ public abstract class Crosshair extends PositionSprite
 	}
 
 
-	private class ScoreBar extends PositionSprite
-	{
-		public ScoreBar()
-		{
-			this.setLayer(0);
-		}
-		@Override
-		protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) {
-			g.setColor(getCrosshairColor());
-			g.fillRect(0, getId()*30, score*this.getPanelWidth()/50, 30);
-
-		}
-
-	}
-
-
 	public boolean attack(Scrub scrub)
 	{
 		boolean visible = scrub.isVisible();
@@ -167,14 +142,7 @@ public abstract class Crosshair extends PositionSprite
 	public void setScore(int score) {
 		this.score = score;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public int getAoeCharges() {
 		return aoeCharges;
 	}

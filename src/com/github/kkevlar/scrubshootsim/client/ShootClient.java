@@ -15,6 +15,8 @@ public class ShootClient extends Socket implements Runnable
 	private boolean initReader = false;
 	private boolean initWriter = false;
 	private Position mousePos;
+	private int myId = -1;
+	private int maxPlayerId = -1;
 
 	public ShootClient() throws UnknownHostException, IOException
 	{
@@ -68,44 +70,67 @@ public class ShootClient extends Socket implements Runnable
 				}
 				if(line != null)
 				{
-					String[] splits = line.split("~");
-					
-					for(int i = 0; i < splits.length; i++)
+					if(line.startsWith("pos:"))
 					{
-						crosshairPoses.set(i, new Position(splits[i]));
+						line = line.substring("pos:".length());
+						String[] splits = line.split("~");
+
+						for(int i = 0; i < splits.length; i++)
+						{
+							crosshairPoses.set(i, new Position(splits[i]));
+						}
+					}
+					else if(line.startsWith("id:"))
+					{
+						line = line.substring("id:".length());
+						this.setMaxPlayerId(Integer.parseInt(line));
+						if(this.getMyId() < 0)
+							this.setMyId(this.getMaxPlayerId());
 					}
 				}
 			}
-	
 
-	}
-	if(!initWriter)
-	{
-		initWriter = true;
-		try
+
+		}
+		if(!initWriter)
 		{
-			long last = System.currentTimeMillis();
-			PrintWriter writer = new PrintWriter(this.getOutputStream());
-			while(true)
+			initWriter = true;
+			try
 			{
-				if(System.currentTimeMillis() - last > 60)
+				long last = System.currentTimeMillis();
+				PrintWriter writer = new PrintWriter(this.getOutputStream());
+				while(true)
 				{
-					last = System.currentTimeMillis();
-					writer.println(mousePos.toString());
-					writer.flush();
-					System.out.println(mousePos.toString());
+					if(System.currentTimeMillis() - last > 60)
+					{
+						last = System.currentTimeMillis();
+						writer.println("pos:"+mousePos.toString());
+						writer.flush();
+						System.out.println(mousePos.toString());
+					}
 				}
 			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
 		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-	}
 
-}
-public void setMousePos(Position mousePos)
-{
-	this.mousePos = mousePos;
-}	
+	}
+	public void setMousePos(Position mousePos)
+	{
+		this.mousePos = mousePos;
+	}
+	public int getMyId() {
+		return myId;
+	}
+	public void setMyId(int myId) {
+		this.myId = myId;
+	}
+	public int getMaxPlayerId() {
+		return maxPlayerId;
+	}
+	public void setMaxPlayerId(int maxPlayerId) {
+		this.maxPlayerId = maxPlayerId;
+	}	
 }

@@ -24,9 +24,9 @@ public class PlayerUpdater implements Runnable {
 				{
 					comb += player.getPos() + "~";
 				}
-				if(comb.length() <= 0)
-					continue;
 				comb = comb.substring(0, comb.length()-1);
+				if(!comb.contains("~"))
+					continue;
 				for(Player player : server.getPlayers())
 				{
 					player.getWriter().println(comb);

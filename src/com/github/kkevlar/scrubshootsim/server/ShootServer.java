@@ -39,4 +39,13 @@ public class ShootServer extends ServerSocket implements Runnable
 	public List<Player> getPlayers() {
 		return users;
 	}
+	
+	public void sentToAll(String message)
+	{
+		for (Player p : users)
+		{
+			p.getWriter().println(message);
+			p.getWriter().flush();			
+		}
+	}
 }

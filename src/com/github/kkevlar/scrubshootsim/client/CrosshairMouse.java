@@ -2,15 +2,16 @@ package com.github.kkevlar.scrubshootsim.client;
 
 import java.util.ArrayList;
 
-public class CrosshairMouse extends Crosshair 
+public class CrosshairMouse extends CrosshairPlayer 
 {
 	
 	private int targetId;
 	private Position mousePos;
 	private ShootClient client;
 	
-	public CrosshairMouse(ShootClient client)
+	public CrosshairMouse(int id, ShootClient client)
 	{
+		super(id);
 		this.setClient(client);
 	}
 	

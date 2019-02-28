@@ -7,22 +7,25 @@ public class Player extends GenericServerClient {
 
 	private String pos;
 	private int id;
+	private ShootServer server;
 	
 	public Player(int id, ShootServer server, Socket s) throws IOException 
 	{
 		super(server, s);
 		this.setId(id);
+		this.server = server;
 	}
 
 	@Override
 	public void clientInit() 
 	{
-		//give em id?
+		server.sentToAll("id:" + id);
 	}
 
 	@Override
 	public void incomingMessage(String read) {
-		pos = read;
+		if(read.startsWith("pos:"))
+		pos = read.substring("pos:".length());
 
 	}
 

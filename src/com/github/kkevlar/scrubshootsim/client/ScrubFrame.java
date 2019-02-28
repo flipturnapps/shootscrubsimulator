@@ -16,19 +16,11 @@ public class ScrubFrame extends JFrame
 	private ScrubLibrary lib;
 	private ShootClient client;
 	private long lastTime = 0;
-	public ScrubFrame()
+	public ScrubFrame( int id, ShootClient client)
 	{
 		panel = new SpritePanel();
-		try {
-			client = new ShootClient();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		player = new CrosshairMouse(client);
+		this.client = client;
+		player = new CrosshairMouse(id, client);
 		panel.add(player);
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,10 +29,6 @@ public class ScrubFrame extends JFrame
 		firstScrub.setX(20);
 		firstScrub.setY(20);
 		panel.add(firstScrub);
-		for(int i = 1; i < 3; i++)
-		{
-			panel.add(new CrosshairAI());
-		}
 		this.setSize(600, 600);
 	}
 	public void doChecks()
