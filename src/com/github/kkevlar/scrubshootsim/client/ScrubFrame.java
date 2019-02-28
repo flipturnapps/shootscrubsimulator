@@ -10,7 +10,7 @@ import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 
 public class ScrubFrame extends JFrame 
 {
-	private Crosshair player;
+	private CrosshairMouse player;
 	private Scrub firstScrub;
 	private SpritePanel panel;
 	private ScrubLibrary lib;
@@ -22,6 +22,7 @@ public class ScrubFrame extends JFrame
 		this.client = client;
 		player = new CrosshairMouse(id, client);
 		panel.add(player);
+		panel.add(player.makeScoreBar());
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		lib = new UrlListScrubLib(new File("warrens.txt"));
@@ -30,6 +31,7 @@ public class ScrubFrame extends JFrame
 		firstScrub.setY(20);
 		panel.add(firstScrub);
 		this.setSize(600, 600);
+		this.client.setPanel(panel);
 	}
 	public void doChecks()
 	{
@@ -43,7 +45,7 @@ public class ScrubFrame extends JFrame
 			cx.spotlight();
 
 		}
-		if(System.currentTimeMillis() - lastTime > 85)
+		if(System.currentTimeMillis() - lastTime > 400)
 		{
 			Scrub newScrub = new Scrub(lib);
 			panel.add(newScrub);

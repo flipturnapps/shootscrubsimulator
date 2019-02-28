@@ -18,7 +18,7 @@ public class ShootMain {
 			e2.printStackTrace();
 		}
 		
-		while(client.getMyId() < 0)
+		while(client.myId < 0)
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e1) {
@@ -26,7 +26,7 @@ public class ShootMain {
 				e1.printStackTrace();
 			}
 		
-		ScrubFrame frame = new ScrubFrame(client.getMyId(),client);
+		ScrubFrame frame = new ScrubFrame(client.myId,client);
 		frame.setVisible(true);
 		while(true)
 		{

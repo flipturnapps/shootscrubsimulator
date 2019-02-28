@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+
+import com.flipturnapps.kevinLibrary.sprite.PositionSprite;
+import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 
 
 public class ShootClient extends Socket implements Runnable
@@ -15,12 +19,16 @@ public class ShootClient extends Socket implements Runnable
 	private boolean initReader = false;
 	private boolean initWriter = false;
 	private Position mousePos;
-	private int myId = -1;
+	public int myId = -1;
 	private int maxPlayerId = -1;
+	private int oldMaxId = -1;
+	private SpritePanel panel = null;
+	private LinkedList<PositionSprite> spritesToAdd;
 
 	public ShootClient() throws UnknownHostException, IOException
 	{
 		super("kevinkellar.com",25567);
+		spritesToAdd = new LinkedList<>();
 		setCrosshairPoses(new ArrayList<>());
 		while(crosshairPoses.size() < 20)
 			crosshairPoses.add(new Position(-1,-1));
@@ -34,6 +42,7 @@ public class ShootClient extends Socket implements Runnable
 		}
 		new Thread(this).start();
 		getCrosshairPoses().add(new Position(0,0));
+		
 
 	}
 	public ArrayList<Position> getCrosshairPoses() {
@@ -83,9 +92,20 @@ public class ShootClient extends Socket implements Runnable
 					else if(line.startsWith("id:"))
 					{
 						line = line.substring("id:".length());
-						this.setMaxPlayerId(Integer.parseInt(line));
-						if(this.getMyId() < 0)
-							this.setMyId(this.getMaxPlayerId());
+						this.maxPlayerId = (Integer.parseInt(line));
+						if(this.myId < 0)
+							this.myId = (this.maxPlayerId);
+						while(this.maxPlayerId > this.oldMaxId)
+						{
+							this.oldMaxId++;
+							if(this.oldMaxId != this.myId)
+							{
+								CrosshairOpponent op = new CrosshairOpponent(this.oldMaxId, this);
+								this.safeAddSprite(op);
+								this.safeAddSprite(op.makeScoreBar());
+							}
+						}
+						
 					}
 				}
 			}
@@ -106,7 +126,6 @@ public class ShootClient extends Socket implements Runnable
 						last = System.currentTimeMillis();
 						writer.println("pos:"+mousePos.toString());
 						writer.flush();
-						System.out.println(mousePos.toString());
 					}
 				}
 			}
@@ -117,20 +136,26 @@ public class ShootClient extends Socket implements Runnable
 		}
 
 	}
+	private void safeAddSprite(PositionSprite spr)
+	{
+		if(this.getPanel() != null)
+			this.getPanel().add(spr);
+		else
+			this.spritesToAdd.push(spr);
+	}
 	public void setMousePos(Position mousePos)
 	{
 		this.mousePos = mousePos;
 	}
-	public int getMyId() {
-		return myId;
+	public SpritePanel getPanel() 
+	{
+		return panel;
 	}
-	public void setMyId(int myId) {
-		this.myId = myId;
+	public void setPanel(SpritePanel panel) 
+	{
+		this.panel = panel;
+		while(!this.spritesToAdd.isEmpty())
+			panel.add(this.spritesToAdd.pop());
 	}
-	public int getMaxPlayerId() {
-		return maxPlayerId;
-	}
-	public void setMaxPlayerId(int maxPlayerId) {
-		this.maxPlayerId = maxPlayerId;
-	}	
+	
 }
