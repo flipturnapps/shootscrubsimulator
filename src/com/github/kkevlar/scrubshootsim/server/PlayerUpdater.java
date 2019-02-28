@@ -19,7 +19,7 @@ public class PlayerUpdater implements Runnable {
 			if(System.currentTimeMillis() - last > 60)
 			{
 				last = System.currentTimeMillis();
-				String comb = "";
+				String comb = "pos:";
 				for(Player player : server.getPlayers())
 				{
 					comb += player.getPos() + "~";
