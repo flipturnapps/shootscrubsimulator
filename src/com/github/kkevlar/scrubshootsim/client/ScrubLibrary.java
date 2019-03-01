@@ -4,5 +4,5 @@ import java.awt.Image;
 
 public interface ScrubLibrary 
 {
-	public Image getScrub();
+	public Image getScrub(int scrubId);
 }

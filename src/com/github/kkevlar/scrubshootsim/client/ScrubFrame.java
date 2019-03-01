@@ -11,14 +11,13 @@ import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 public class ScrubFrame extends JFrame 
 {
 	private CrosshairMouse player;
-	private Scrub firstScrub;
-	private SpritePanel panel;
+	private ScrubPanel panel;
 	private ScrubLibrary lib;
 	private ShootClient client;
 	private long lastTime = 0;
 	public ScrubFrame( int id, ShootClient client)
 	{
-		panel = new SpritePanel();
+		panel = new ScrubPanel();
 		this.client = client;
 		player = new CrosshairMouse(id, client);
 		panel.add(player);
@@ -26,10 +25,6 @@ public class ScrubFrame extends JFrame
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		lib = new UrlListScrubLib(new File("warrens.txt"));
-		firstScrub = new Scrub(lib);
-		firstScrub.setX(20);
-		firstScrub.setY(20);
-		panel.add(firstScrub);
 		this.setSize(600, 600);
 		this.client.setPanel(panel);
 	}
@@ -44,15 +39,6 @@ public class ScrubFrame extends JFrame
 				continue;
 			cx.spotlight();
 
-		}
-		if(System.currentTimeMillis() - lastTime > 400)
-		{
-			Scrub newScrub = new Scrub(lib);
-			panel.add(newScrub);
-			newScrub.setX((int) (Math.random() * panel.getWidth()));
-			newScrub.setY((int) (Math.random() * panel.getHeight()));
-			lastTime = System.currentTimeMillis();
-		
 		}
 		for(int i = 0; i < panel.getSprites().size(); i++)
 		{

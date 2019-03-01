@@ -25,7 +25,7 @@ public class Scrub extends PositionSprite
 	public Scrub(ScrubLibrary lib) 
 	{
 		this.setAll(0, 0, Scrub.SIZE, Scrub.SIZE);
-		this.scrubImage = lib.getScrub();
+		this.scrubImage = lib.getScrub(id);
 		this.setLayer(1);
 		id=staticid;
 		staticid++;
@@ -44,8 +44,6 @@ public class Scrub extends PositionSprite
 			this.setWidth(this.getHeight() + 6);
 			}
 		}
-			
-		
 	}
 
 

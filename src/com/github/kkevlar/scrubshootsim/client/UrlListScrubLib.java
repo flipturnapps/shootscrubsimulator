@@ -89,9 +89,9 @@ public class UrlListScrubLib implements ScrubLibrary
 		return image;
 	}
 	@Override
-	public Image getScrub() 
+	public Image getScrub(int scrubId) 
 	{
-		int i = (int) (Math.random() * count);
+		int i = ((scrubId*37) % count);
 		if(LOAD_INTO_RAM)
 			return scrubs[i];
 		else
