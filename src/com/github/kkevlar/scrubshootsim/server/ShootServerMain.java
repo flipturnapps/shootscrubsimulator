@@ -16,8 +16,22 @@ public class ShootServerMain
 			e.printStackTrace();
 		}
         
-        s.sentToAll("add:100,100~2~0");
-        
+        int i = 0;
+        while (true)
+        {
+        	String scrubString = String.format("add:%d,%d~%d~%d", 
+        			(int) (Math.random() * 600),
+        			(int) (Math.random() * 600),
+        			Math.random() > .25 ? 0 : 2,
+        			i++);
+        	s.sentToAll(scrubString);
+        	try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
         
 		/*
 		 * while (true) { for (String key : s.getRooms().keySet()) { Room room =
