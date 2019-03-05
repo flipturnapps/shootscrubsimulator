@@ -113,7 +113,6 @@ public class ShootClient extends Socket implements Runnable
 					else if(line.startsWith("add:"))
 					{
 						line = line.substring("add:".length());
-						this.maxPlayerId = (Integer.parseInt(line));
 						NewClientScrub scrub = NewClientScrub.constructScrubFromString(line, lib);
 						this.safeAddSprite(scrub);					
 					}
