@@ -15,7 +15,7 @@ public class ShootServerMain
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
+        System.out.println("assdafdslkj");
         s.sentToAll("add:100,100~2~0");
         
         
