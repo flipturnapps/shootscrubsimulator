@@ -24,11 +24,14 @@ public class ShootClient extends Socket implements Runnable
 	private int oldMaxId = -1;
 	private SpritePanel panel = null;
 	private LinkedList<PositionSprite> spritesToAdd;
+	private ScrubLibrary lib;
+	
 
-	public ShootClient() throws UnknownHostException, IOException
+	public ShootClient(ScrubLibrary lib) throws UnknownHostException, IOException
 	{
 		super("kevinkellar.com",25567);
 		spritesToAdd = new LinkedList<>();
+		this.lib = lib;
 		setCrosshairPoses(new ArrayList<>());
 		while(crosshairPoses.size() < 20)
 			crosshairPoses.add(new Position(-1,-1));
@@ -42,7 +45,6 @@ public class ShootClient extends Socket implements Runnable
 		}
 		new Thread(this).start();
 		getCrosshairPoses().add(new Position(0,0));
-		
 
 	}
 	public ArrayList<Position> getCrosshairPoses() {
@@ -107,6 +109,13 @@ public class ShootClient extends Socket implements Runnable
 						}
 						
 					}
+					else if(line.startsWith("add:"))
+					{
+						line = line.substring("add:".length());
+						this.maxPlayerId = (Integer.parseInt(line));
+						NewClientScrub scrub = NewClientScrub.constructScrubFromString(line, lib);
+						this.safeAddSprite(scrub);					
+					}
 				}
 			}
 
@@ -136,6 +145,7 @@ public class ShootClient extends Socket implements Runnable
 		}
 
 	}
+
 	private void safeAddSprite(PositionSprite spr)
 	{
 		if(this.getPanel() != null)

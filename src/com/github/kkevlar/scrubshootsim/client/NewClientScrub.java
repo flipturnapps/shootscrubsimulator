@@ -20,7 +20,32 @@ public class NewClientScrub extends PositionSprite
 	private int xOffset;
 	private int yOffset;
 	private boolean purdy;
-
+	
+	public static NewClientScrub constructScrubFromString(String string, ScrubLibrary lib)
+	{
+		Position pos;
+		boolean colorful = false;
+		boolean sup = false;
+		int type;
+		int id;
+	
+		String[] splits = string.split("~");
+		pos = new Position(splits[0]);
+		type = Integer.parseInt(splits[1]);
+		if(type >= 1)
+			sup = true;
+		if(type >= 2)
+			colorful = true;
+		id = Integer.parseInt(splits[2]);
+		
+		NewClientScrub scrub = new NewClientScrub(lib,id);
+		
+		scrub.setX(pos.getX());
+		scrub.setY(pos.getY());
+		scrub.purdy = colorful;
+		return scrub;
+	}
+	
 	public NewClientScrub(ScrubLibrary lib, int id) 
 	{
 		this.setAll(0, 0, NewClientScrub.SIZE, NewClientScrub.SIZE);

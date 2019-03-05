@@ -8,6 +8,17 @@ public class ShootServerMain
 
         ShootServer s = new ShootServer(25567);
         PlayerUpdater u = new PlayerUpdater(s);
+        
+        try {
+			Thread.sleep(100000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        s.sentToAll("add:100,100~2~0");
+        
+        
 		/*
 		 * while (true) { for (String key : s.getRooms().keySet()) { Room room =
 		 * s.getRooms().get(key); if(!room.isHasPrintedNominations() &&

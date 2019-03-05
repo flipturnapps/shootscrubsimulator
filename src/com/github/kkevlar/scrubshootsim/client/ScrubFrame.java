@@ -15,7 +15,7 @@ public class ScrubFrame extends JFrame
 	private ScrubLibrary lib;
 	private ShootClient client;
 	private long lastTime = 0;
-	public ScrubFrame( int id, ShootClient client)
+	public ScrubFrame(ScrubLibrary lib, int id, ShootClient client)
 	{
 		panel = new ScrubPanel();
 		this.client = client;
@@ -24,7 +24,7 @@ public class ScrubFrame extends JFrame
 		panel.add(player.makeScoreBar());
 		this.getContentPane().add(panel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		lib = new UrlListScrubLib(new File("warrens.txt"));
+		this.lib = lib;
 		this.setSize(600, 600);
 		this.client.setPanel(panel);
 	}
