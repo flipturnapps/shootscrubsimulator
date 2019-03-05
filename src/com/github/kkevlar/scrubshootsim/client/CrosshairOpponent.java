@@ -8,7 +8,7 @@ public class CrosshairOpponent extends CrosshairPlayer
 	}
 
 	@Override
-	protected void childForEachScrub(Scrub scrub) {
+	protected void childForEachScrub(NewClientScrub scrub) {
 		// TODO Auto-generated method stub
 		
 	}

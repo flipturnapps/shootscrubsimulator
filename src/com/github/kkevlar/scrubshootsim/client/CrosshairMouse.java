@@ -19,18 +19,18 @@ public class CrosshairMouse extends CrosshairPlayer
 		return this.getPanel().mouseDown();
 	}
 
-	public void setTarget(Scrub scrub) 
+	public void setTarget(NewClientScrub scrub) 
 	{
 		this.targetId = scrub.getId();
 	}
 
-	public boolean targetIs(Scrub scrub) 
+	public boolean targetIs(NewClientScrub scrub) 
 	{
 		if(scrub.getId() == this.targetId)
 			return true;
 		return false;
 	}
-	public void childForEachScrub(Scrub scrub)
+	public void childForEachScrub(NewClientScrub scrub)
 	{
 		if(!this.getPanel().mouseDown() && this.collidingWithCircles(scrub))
 			this.setTarget(scrub);

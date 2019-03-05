@@ -41,7 +41,7 @@ public abstract class Crosshair extends PositionSprite
 		if(zombies == null)
 			zombies = new ArrayList<CrosshairZombie>();
 	}
-	public void forEachScrub(Scrub scrub)
+	public void forEachScrub(NewClientScrub scrub)
 	{
 		if(this.isSplitting && !scrub.isSuper() && this.distanceToCenters(scrub) < SPLIT_RANGE)
 		{
@@ -52,7 +52,7 @@ public abstract class Crosshair extends PositionSprite
 		this.childForEachScrub(scrub);
 	}
 
-	protected abstract void childForEachScrub(Scrub scrub);
+	protected abstract void childForEachScrub(NewClientScrub scrub);
 	public void spotlight() 
 	{
 		boolean alreadySplit = false;
@@ -119,7 +119,7 @@ public abstract class Crosshair extends PositionSprite
 	}
 
 
-	public boolean attack(Scrub scrub)
+	public boolean attack(NewClientScrub scrub)
 	{
 		boolean visible = scrub.isVisible();
 		scrub.setVisible(false);

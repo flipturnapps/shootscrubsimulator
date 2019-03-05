@@ -42,9 +42,9 @@ public class ScrubFrame extends JFrame
 		}
 		for(int i = 0; i < panel.getSprites().size(); i++)
 		{
-			Scrub scrub = null;
-			if(panel.getSprites().get(i) instanceof Scrub)
-				scrub = (Scrub) panel.getSprites().get(i);
+			NewClientScrub scrub = null;
+			if(panel.getSprites().get(i) instanceof NewClientScrub)
+				scrub = (NewClientScrub) panel.getSprites().get(i);
 			else
 				continue;
 			for(int y = 0; y < panel.getSprites().size(); y++)

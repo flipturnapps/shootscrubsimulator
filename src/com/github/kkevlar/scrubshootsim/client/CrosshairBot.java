@@ -2,7 +2,7 @@ package com.github.kkevlar.scrubshootsim.client;
 
 public abstract class CrosshairBot extends Crosshair 
 {
-	private Scrub chosen;
+	private NewClientScrub chosen;
 	private long targetTime;
 	
 	private boolean didChoose;	
@@ -52,10 +52,10 @@ public abstract class CrosshairBot extends Crosshair
 	{
 		return this.getTargetTime() != 0;
 	}
-	public Scrub getChosen() {
+	public NewClientScrub getChosen() {
 		return chosen;
 	}
-	public void setChosen(Scrub chosen) 
+	public void setChosen(NewClientScrub chosen) 
 	{
 		this.chosen = chosen;
 	}

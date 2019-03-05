@@ -5,7 +5,7 @@ public class CrosshairZombie extends CrosshairBot
 
 	private Crosshair parent;
 
-	public CrosshairZombie(Crosshair parent, Scrub chosen)
+	public CrosshairZombie(Crosshair parent, NewClientScrub chosen)
 	{
 		this.parent = parent;
 		this.setChosen(chosen);
@@ -18,12 +18,12 @@ public class CrosshairZombie extends CrosshairBot
 	
 
 	@Override
-	public void childForEachScrub(Scrub scrub) 
+	public void childForEachScrub(NewClientScrub scrub) 
 	{
 		//do nothing
 	}
 	
-	public boolean attack(Scrub scrub)
+	public boolean attack(NewClientScrub scrub)
 	{
 		boolean b = super.attack(scrub);
 		interrupted();
