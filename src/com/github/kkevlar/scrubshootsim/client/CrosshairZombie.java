@@ -4,15 +4,19 @@ public class CrosshairZombie extends CrosshairBot
 {
 
 	private Crosshair parent;
+	private long spawnTime;
 
-	public CrosshairZombie(Crosshair parent, NewClientScrub chosen)
+	
+	public CrosshairZombie(Crosshair parent, NewClientScrub chosen, ShootClient client)
 	{
+		super(client);
 		this.parent = parent;
 		this.setChosen(chosen);
 		this.setCrosshairColor(parent.getCrosshairColor());
 		this.setX(parent.getX());
 		this.setY(parent.getY());
 		this.setAoeCharges(0);
+		this.spawnTime = System.currentTimeMillis();
 	}
 
 	
@@ -50,7 +54,14 @@ public class CrosshairZombie extends CrosshairBot
 		return Math.pow(dist, pow)/div;
 	}
 
-
+	public void spotlight()
+	{
+		if(System.currentTimeMillis() - this.spawnTime > 2000)
+			this.interrupted();
+		else
+			super.spotlight();
+		
+	}
 
 	@Override
 	public boolean wantsToUseAOE() 

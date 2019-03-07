@@ -10,7 +10,7 @@ public abstract class CrosshairPlayer extends Crosshair
 
 	public CrosshairPlayer(int id, ShootClient client)
 	{
-		super();
+		super(client);
 		this.id = id;
 		this.client = client;
 		this.setCrosshairColor(colors[id%colors.length]);
@@ -34,11 +34,11 @@ public abstract class CrosshairPlayer extends Crosshair
 		this.setCenterY(pos.getY());
 	}
 	
-	public ShootClient getClient() {
-		return client;
+	public void splitAttack()
+	{
+		super.splitAttack();
+		client.getWriter().printf("split:%d\n",id);
+		client.getWriter().flush();
 	}
-
-	private void setClient(ShootClient client) {
-		this.client = client;
-	}
+	
 }

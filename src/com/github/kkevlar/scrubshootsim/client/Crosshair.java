@@ -22,15 +22,17 @@ public abstract class Crosshair extends PositionSprite
 	private ArrayList<CrosshairZombie> zombies;
 	private long lastSplit;
 	private int aoeCharges = 1;
-	public Crosshair()
+	private ShootClient client;
+	public Crosshair(ShootClient client)
 	{
+		this.setClient(client);
 		this.setOutsideAllowed(false);
 		this.setAll(20, 20, 40, 40);
 		this.setLayer(2);
 	}
-	private void splitAttack() 
+	public  void splitAttack() 
 	{
-		this.isSplitting = true;	
+		this.isSplitting = true;
 		this.initZombies();
 		setAoeCharges(getAoeCharges() - 1);
 		lastSplit = System.currentTimeMillis();
@@ -45,7 +47,7 @@ public abstract class Crosshair extends PositionSprite
 	{
 		if(this.isSplitting && !scrub.isSuper() && this.distanceToCenters(scrub) < SPLIT_RANGE)
 		{
-			CrosshairZombie zzz = new CrosshairZombie(this,scrub);
+			CrosshairZombie zzz = new CrosshairZombie(this,scrub,client);
 			this.getPanel().add(zzz);
 			zombies.add(zzz);
 		}
@@ -128,6 +130,7 @@ public abstract class Crosshair extends PositionSprite
 			score++;
 			if(scrub.isSuper())
 				this.aoeCharges++;
+			getClient().iKilledAScrub(scrub);
 			return true;
 		}
 		return false;		
@@ -148,5 +151,11 @@ public abstract class Crosshair extends PositionSprite
 	}
 	public void setAoeCharges(int aoeCharges) {
 		this.aoeCharges = aoeCharges;
+	}
+	public ShootClient getClient() {
+		return client;
+	}
+	public void setClient(ShootClient client) {
+		this.client = client;
 	}
 }

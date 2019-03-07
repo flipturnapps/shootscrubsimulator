@@ -2,6 +2,10 @@ package com.github.kkevlar.scrubshootsim.client;
 
 public abstract class CrosshairBot extends Crosshair 
 {
+	public CrosshairBot(ShootClient client) {
+		super(client);
+	}
+
 	private NewClientScrub chosen;
 	private long targetTime;
 	

@@ -26,7 +26,7 @@ public class Player extends GenericServerClient {
 	public void incomingMessage(String read) {
 		if(read.startsWith("pos:"))
 			pos = read.substring("pos:".length());
-		else if(read.startsWith("rm:"))
+		else if(read.startsWith("rm:") || read.startsWith("split:"))
 			server.sentToAll(read);
 
 	}

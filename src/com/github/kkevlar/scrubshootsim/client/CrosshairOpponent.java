@@ -3,6 +3,8 @@ package com.github.kkevlar.scrubshootsim.client;
 public class CrosshairOpponent extends CrosshairPlayer 
 {
 
+	private long splitStartTime;
+	
 	public CrosshairOpponent(int id, ShootClient client) {
 		super(id, client);
 	}
@@ -15,14 +17,19 @@ public class CrosshairOpponent extends CrosshairPlayer
 
 	@Override
 	public boolean wantsToUseAOE() {
-		// TODO Auto-generated method stub
-		return false;
+		return System.currentTimeMillis() - splitStartTime > 300;
 	}
 
 	@Override
 	public boolean attacking() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void setDoSplit()
+	{
+		
+		splitStartTime = System.currentTimeMillis();
 	}
 
 }

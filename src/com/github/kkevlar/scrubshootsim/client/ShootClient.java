@@ -7,10 +7,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import com.flipturnapps.kevinLibrary.sprite.PositionSprite;
-import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 
 
 public class ShootClient extends Socket implements Runnable
@@ -24,6 +24,7 @@ public class ShootClient extends Socket implements Runnable
 	private int oldMaxId = -1;
 	private ScrubPanel panel = null;
 	private LinkedList<PositionSprite> spritesToAdd;
+	private HashMap<Integer,CrosshairPlayer> players;
 	private ScrubLibrary lib;
 	private PrintWriter writer;
 	
@@ -31,6 +32,7 @@ public class ShootClient extends Socket implements Runnable
 	public ShootClient(ScrubLibrary lib) throws UnknownHostException, IOException
 	{
 		super("kevinkellar.com",25567);
+		players = new HashMap<>();
 		spritesToAdd = new LinkedList<>();
 		this.lib = lib;
 		setCrosshairPoses(new ArrayList<>());
@@ -122,6 +124,16 @@ public class ShootClient extends Socket implements Runnable
 						line = line.substring("rm:".length());
 						this.getPanel().remove(line);
 					}
+					else if(line.startsWith("split:"))
+					{
+						line = line.substring("split:".length());
+						int id = Integer.parseInt(line);
+						CrosshairPlayer p = players.get(id);
+						if(p instanceof CrosshairOpponent)
+						{
+							((CrosshairOpponent) p).setDoSplit();
+						}
+					}
 				}
 			}
 
@@ -133,14 +145,14 @@ public class ShootClient extends Socket implements Runnable
 			try
 			{
 				long last = System.currentTimeMillis();
-				writer = new PrintWriter(this.getOutputStream());
+				setWriter(new PrintWriter(this.getOutputStream()));
 				while(true)
 				{
 					if(System.currentTimeMillis() - last > 60)
 					{
 						last = System.currentTimeMillis();
-						writer.println("pos:"+mousePos.toString());
-						writer.flush();
+						getWriter().println("pos:"+mousePos.toString());
+						getWriter().flush();
 					}
 				}
 			}
@@ -154,6 +166,12 @@ public class ShootClient extends Socket implements Runnable
 
 	private void safeAddSprite(PositionSprite spr)
 	{
+		if(spr instanceof CrosshairPlayer)
+		{
+			CrosshairPlayer player = (CrosshairPlayer) spr;
+			players.put(player.getId(),player);
+		}
+		
 		if(this.getPanel() != null)
 			this.getPanel().add(spr);
 		else
@@ -175,8 +193,14 @@ public class ShootClient extends Socket implements Runnable
 	}
 	public void iKilledAScrub(NewClientScrub scrub)
 	{
-		writer.printf("rm:%d\n",scrub.getId());
-		writer.flush();
+		getWriter().printf("rm:%d\n",scrub.getId());
+		getWriter().flush();
+	}
+	public PrintWriter getWriter() {
+		return writer;
+	}
+	public void setWriter(PrintWriter writer) {
+		this.writer = writer;
 	}
 	
 }
