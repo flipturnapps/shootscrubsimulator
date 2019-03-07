@@ -43,6 +43,7 @@ public class NewClientScrub extends PositionSprite
 		scrub.setX(pos.getX());
 		scrub.setY(pos.getY());
 		scrub.purdy = colorful;
+		scrub.isSuper = sup;
 		return scrub;
 	}
 	

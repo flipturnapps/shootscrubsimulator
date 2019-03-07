@@ -25,7 +25,9 @@ public class Player extends GenericServerClient {
 	@Override
 	public void incomingMessage(String read) {
 		if(read.startsWith("pos:"))
-		pos = read.substring("pos:".length());
+			pos = read.substring("pos:".length());
+		else if(read.startsWith("rm:"))
+			server.sentToAll(read);
 
 	}
 

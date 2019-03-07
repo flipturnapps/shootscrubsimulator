@@ -22,9 +22,10 @@ public class ShootClient extends Socket implements Runnable
 	public int myId = -1;
 	private int maxPlayerId = -1;
 	private int oldMaxId = -1;
-	private SpritePanel panel = null;
+	private ScrubPanel panel = null;
 	private LinkedList<PositionSprite> spritesToAdd;
 	private ScrubLibrary lib;
+	private PrintWriter writer;
 	
 
 	public ShootClient(ScrubLibrary lib) throws UnknownHostException, IOException
@@ -116,6 +117,11 @@ public class ShootClient extends Socket implements Runnable
 						NewClientScrub scrub = NewClientScrub.constructScrubFromString(line, lib);
 						this.safeAddSprite(scrub);					
 					}
+					else if(line.startsWith("rm:"))
+					{
+						line = line.substring("rm:".length());
+						this.getPanel().remove(line);
+					}
 				}
 			}
 
@@ -127,7 +133,7 @@ public class ShootClient extends Socket implements Runnable
 			try
 			{
 				long last = System.currentTimeMillis();
-				PrintWriter writer = new PrintWriter(this.getOutputStream());
+				writer = new PrintWriter(this.getOutputStream());
 				while(true)
 				{
 					if(System.currentTimeMillis() - last > 60)
@@ -157,15 +163,20 @@ public class ShootClient extends Socket implements Runnable
 	{
 		this.mousePos = mousePos;
 	}
-	public SpritePanel getPanel() 
+	public ScrubPanel getPanel() 
 	{
 		return panel;
 	}
-	public void setPanel(SpritePanel panel) 
+	public void setPanel(ScrubPanel panel) 
 	{
 		this.panel = panel;
 		while(!this.spritesToAdd.isEmpty())
 			panel.add(this.spritesToAdd.pop());
+	}
+	public void iKilledAScrub(NewClientScrub scrub)
+	{
+		writer.printf("rm:%d\n",scrub.getId());
+		writer.flush();
 	}
 	
 }

@@ -34,6 +34,18 @@ public class ScrubPanel extends SpritePanel
 		super.remove(sprite);
 	}
 	
+	public void remove(String line) 
+	{
+		try
+		{
+		int num = Integer.parseInt(line);
+		NewClientScrub scrub = scrubTable.remove(num);
+		this.remove(scrub);
+		}
+		catch(Exception ex) {}
+		
+	}
+	
 	
 	
 }
