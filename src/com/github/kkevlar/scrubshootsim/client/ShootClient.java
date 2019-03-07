@@ -84,7 +84,7 @@ public class ShootClient extends Socket implements Runnable
 				}
 				if(line != null)
 				{
-					System.out.println(line);
+//					System.out.println(line);
 					if(line.startsWith("pos:"))
 					{
 						line = line.substring("pos:".length());

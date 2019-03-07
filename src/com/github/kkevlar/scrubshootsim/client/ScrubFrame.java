@@ -1,12 +1,11 @@
 package com.github.kkevlar.scrubshootsim.client;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
+import com.flipturnapps.kevinLibrary.sprite.Sprite;
 
 public class ScrubFrame extends JFrame 
 {
@@ -30,39 +29,49 @@ public class ScrubFrame extends JFrame
 	}
 	public void doChecks()
 	{
-		for(int y = 0; y < panel.getSprites().size(); y++)
+		ArrayList<Sprite> sprs = new ArrayList<Sprite>(panel.getSprites());
+		LinkedList<Sprite> toRemove = new LinkedList<Sprite>();
+		for(int y = 0; y < sprs.size(); y++)
 		{
 			Crosshair cx = null;
-			if(panel.getSprites().get(y) instanceof Crosshair)
-				cx = (Crosshair) panel.getSprites().get(y);
+			if(sprs.get(y) instanceof Crosshair)
+				cx = (Crosshair) sprs.get(y);
 			else
 				continue;
 			cx.spotlight();
 
 		}
-		for(int i = 0; i < panel.getSprites().size(); i++)
+		for(int i = 0; i < sprs.size(); i++)
 		{
 			NewClientScrub scrub = null;
-			if(panel.getSprites().get(i) instanceof NewClientScrub)
-				scrub = (NewClientScrub) panel.getSprites().get(i);
+			if(sprs.get(i) instanceof NewClientScrub)
+				scrub = (NewClientScrub) sprs.get(i);
 			else
 				continue;
-			for(int y = 0; y < panel.getSprites().size(); y++)
+			for(int y = 0; y < sprs.size(); y++)
 			{
 				Crosshair cx = null;
-				if(panel.getSprites().get(y) instanceof Crosshair)
-					cx = (Crosshair) panel.getSprites().get(y);
+				if(sprs.get(y) instanceof Crosshair)
+					cx = (Crosshair) sprs.get(y);
 				else
 					continue;
 				cx.forEachScrub(scrub);
 			}
 			if(!scrub.isVisible())
 			{
-				panel.remove(scrub);
+				toRemove.add(scrub);
 				i--;
 			}
 			
 		}
-		this.setTitle(panel.getSprites().size()+"");
+		
+		System.out.println("    aaa");
+		while(!toRemove.isEmpty())
+		{
+			this.panel.remove(toRemove.pop());
+		}
+		System.out.println("aaa");
+		
+		this.setTitle(sprs.size()+"");
 	}
 }
