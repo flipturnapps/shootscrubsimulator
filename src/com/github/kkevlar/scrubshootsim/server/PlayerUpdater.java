@@ -48,7 +48,7 @@ public class PlayerUpdater implements Runnable {
 				if(!sendNums())
 					continue;
 				
-				comb = "nums: ";
+				comb = "nums:";
 				for(Player player : server.getPlayers())
 				{
 					comb += player.score + "," + player.chargeCount + "~";

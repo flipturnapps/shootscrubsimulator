@@ -118,8 +118,8 @@ public class ShootClient extends Socket implements Runnable
 						for(int i = 0; i < splits.length; i++)
 						{
 							String[] ssss = splits[i].split(",");
-							this.crosshairScores.set(i, Integer.parseInt(splits[0]));
-							this.crosshairCharges.set(i, Integer.parseInt(splits[1]));
+							this.crosshairScores.set(i, Integer.parseInt(ssss[0]));
+							this.crosshairCharges.set(i, Integer.parseInt(ssss[1]));
 						}
 					}
 					else if(line.startsWith("id:"))
