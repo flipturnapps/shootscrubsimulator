@@ -21,8 +21,14 @@ public class ScrubPanel extends SpritePanel
 	
 	public void safeAddRemove()
 	{
-		while(!toAdd.isEmpty()) { this.add(toAdd.pop()); }
-		while(!toRemove.isEmpty()) { this.add(toRemove.pop()); }
+		while(!toAdd.isEmpty())
+		{ 
+			super.add(toAdd.pop());
+		}
+		while(!toRemove.isEmpty())
+		{ 
+			super.remove(toRemove.pop());
+		}
 	}
 	
 	public void add(Sprite sprite)
@@ -32,6 +38,12 @@ public class ScrubPanel extends SpritePanel
 			NewClientScrub scrub = (NewClientScrub) sprite;
 			scrubTable.put(scrub.getId(), scrub);
 		}
+//		toAdd.add(sprite);
+		super.add(sprite);
+	}
+	
+	public void addLater(Sprite sprite)
+	{
 		toAdd.add(sprite);
 	}
 	
@@ -42,6 +54,12 @@ public class ScrubPanel extends SpritePanel
 			NewClientScrub scrub = (NewClientScrub) sprite;
 			scrubTable.remove(scrub.getId(), scrub);
 		}
+//		toRemove.add(sprite);
+		super.remove(sprite);
+	}
+	
+	public void removeLater(Sprite sprite)
+	{
 		toRemove.add(sprite);
 	}
 	

@@ -29,7 +29,15 @@ public class ScrubFrame extends JFrame
 	}
 	public void doChecks()
 	{
-		ArrayList<Sprite> sprs = new ArrayList<Sprite>(panel.getSprites());
+		ArrayList<Sprite> sprs = null;
+		try
+		{
+			sprs = new ArrayList<Sprite>(panel.getSprites());
+		}
+		catch (RuntimeException ex)
+		{
+			return;
+		}
 		LinkedList<Sprite> toRemove = new LinkedList<Sprite>();
 		for(int y = 0; y < sprs.size(); y++)
 		{
@@ -68,6 +76,7 @@ public class ScrubFrame extends JFrame
 		{
 			this.panel.remove(toRemove.pop());
 		}
+	
 		this.panel.safeAddRemove();
 		
 		this.setTitle(sprs.size()+"");
