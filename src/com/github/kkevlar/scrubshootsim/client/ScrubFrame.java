@@ -60,17 +60,15 @@ public class ScrubFrame extends JFrame
 			if(!scrub.isVisible())
 			{
 				toRemove.add(scrub);
-				i--;
 			}
 			
 		}
 		
-		System.out.println("    aaa");
 		while(!toRemove.isEmpty())
 		{
 			this.panel.remove(toRemove.pop());
 		}
-		System.out.println("aaa");
+		this.panel.safeAddRemove();
 		
 		this.setTitle(sprs.size()+"");
 	}

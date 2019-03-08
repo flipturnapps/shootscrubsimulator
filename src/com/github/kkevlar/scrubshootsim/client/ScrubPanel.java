@@ -1,6 +1,7 @@
 package com.github.kkevlar.scrubshootsim.client;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import com.flipturnapps.kevinLibrary.sprite.Sprite;
 import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
@@ -8,10 +9,20 @@ import com.flipturnapps.kevinLibrary.sprite.SpritePanel;
 public class ScrubPanel extends SpritePanel 
 {
 	private HashMap<Integer, NewClientScrub> scrubTable;
+	private LinkedList<Sprite> toAdd;
+	private LinkedList<Sprite> toRemove;
 	
 	public ScrubPanel()
 	{
 		scrubTable = new HashMap<>();
+		toAdd = new LinkedList<>();
+		toRemove = new LinkedList<>();
+	}
+	
+	public void safeAddRemove()
+	{
+		while(!toAdd.isEmpty()) { this.add(toAdd.pop()); }
+		while(!toRemove.isEmpty()) { this.add(toRemove.pop()); }
 	}
 	
 	public void add(Sprite sprite)
@@ -21,7 +32,7 @@ public class ScrubPanel extends SpritePanel
 			NewClientScrub scrub = (NewClientScrub) sprite;
 			scrubTable.put(scrub.getId(), scrub);
 		}
-		super.add(sprite);
+		toAdd.add(sprite);
 	}
 	
 	public void remove(Sprite sprite)
@@ -31,7 +42,7 @@ public class ScrubPanel extends SpritePanel
 			NewClientScrub scrub = (NewClientScrub) sprite;
 			scrubTable.remove(scrub.getId(), scrub);
 		}
-		super.remove(sprite);
+		toRemove.add(sprite);
 	}
 	
 	public void remove(String line) 
