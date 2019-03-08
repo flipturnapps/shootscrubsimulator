@@ -51,7 +51,7 @@ public class PlayerUpdater implements Runnable {
 				comb = "nums: ";
 				for(Player player : server.getPlayers())
 				{
-					comb += player.score + "." + player.chargeCount + "~";
+					comb += player.score + "," + player.chargeCount + "~";
 					player.numsChanged = false;
 				}
 				if(!comb.contains("~"))
