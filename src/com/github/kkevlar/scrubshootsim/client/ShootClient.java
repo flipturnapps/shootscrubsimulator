@@ -148,7 +148,7 @@ public class ShootClient extends Socket implements Runnable
 				setWriter(new PrintWriter(this.getOutputStream()));
 				while(true)
 				{
-					if(System.currentTimeMillis() - last > 60)
+					if(System.currentTimeMillis() - last > 20)
 					{
 						last = System.currentTimeMillis();
 						getWriter().println("pos:"+mousePos.toString());
