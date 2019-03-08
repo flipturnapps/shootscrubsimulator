@@ -10,6 +10,16 @@ public class PlayerUpdater implements Runnable {
 		new Thread(this).start();
 	}
 	
+	private boolean sendNums()
+	{
+		for(Player player : server.getPlayers())
+		{
+			if(player.numsChanged)
+				return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void run() 
 	{
@@ -19,6 +29,7 @@ public class PlayerUpdater implements Runnable {
 			if(System.currentTimeMillis() - last > 20)
 			{
 				last = System.currentTimeMillis();
+				
 				String comb = "pos:";
 				for(Player player : server.getPlayers())
 				{
@@ -31,8 +42,28 @@ public class PlayerUpdater implements Runnable {
 				{
 					player.getWriter().println(comb);
 					player.getWriter().flush();
+				}				
+				System.out.println(comb);	
+				
+				if(!sendNums())
+					continue;
+				
+				comb = "nums: ";
+				for(Player player : server.getPlayers())
+				{
+					comb += player.score + "." + player.chargeCount + "~";
+					player.numsChanged = false;
 				}
+				if(!comb.contains("~"))
+					continue;
+				comb = comb.substring(0, comb.length()-1);
+				for(Player player : server.getPlayers())
+				{
+					player.getWriter().println(comb);
+					player.getWriter().flush();
+				}				
 				System.out.println(comb);
+				
 			}
 		}
 	}
