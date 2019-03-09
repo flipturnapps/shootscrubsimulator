@@ -32,6 +32,9 @@ public abstract class CrosshairPlayer extends Crosshair
 		Position pos = client.getCrosshairPoses().get(this.getId());
 		this.setCenterX(pos.getX());
 		this.setCenterY(pos.getY());
+		this.setScore(client.crosshairScores.get(this.getId()));
+		if(! (this instanceof CrosshairMouse))
+		this.setAoeCharges(client.crosshairCharges.get(this.getId()));
 	}
 	
 	public void splitAttack()

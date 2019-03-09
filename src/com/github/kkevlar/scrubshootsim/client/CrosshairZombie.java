@@ -29,7 +29,9 @@ public class CrosshairZombie extends CrosshairBot
 	
 	public boolean attack(NewClientScrub scrub)
 	{
-		boolean b = super.attack(scrub);
+		boolean b = false;
+		if(parent instanceof CrosshairMouse)
+		b = super.attack(scrub);
 		interrupted();
 		return b;
 	}

@@ -16,6 +16,8 @@ import com.flipturnapps.kevinLibrary.sprite.PositionSprite;
 public class ShootClient extends Socket implements Runnable
 {
 	private ArrayList<Position> crosshairPoses;
+	public ArrayList<Integer> crosshairScores;
+	public ArrayList<Integer> crosshairCharges;
 	private boolean initReader = false;
 	private boolean initWriter = false;
 	private Position mousePos;
@@ -27,6 +29,9 @@ public class ShootClient extends Socket implements Runnable
 	private HashMap<Integer,CrosshairPlayer> players;
 	private ScrubLibrary lib;
 	private PrintWriter writer;
+	public int myScore;
+	public int myCharges;
+	public boolean myNumsChanged;
 	
 
 	public ShootClient(ScrubLibrary lib) throws UnknownHostException, IOException
@@ -35,9 +40,19 @@ public class ShootClient extends Socket implements Runnable
 		players = new HashMap<>();
 		spritesToAdd = new LinkedList<>();
 		this.lib = lib;
+		
 		setCrosshairPoses(new ArrayList<>());
 		while(crosshairPoses.size() < 20)
 			crosshairPoses.add(new Position(-1,-1));
+		
+		this.crosshairScores = new ArrayList<>();
+		while(this.crosshairScores.size() < 20)
+			this.crosshairScores.add(0);
+		
+		this.crosshairCharges = new ArrayList<>();
+		while(this.crosshairCharges.size() < 20)
+			this.crosshairCharges.add(0);
+		
 		new Thread(this).start();
 		mousePos = new Position(0,0);
 		try {
@@ -93,6 +108,18 @@ public class ShootClient extends Socket implements Runnable
 						for(int i = 0; i < splits.length; i++)
 						{
 							crosshairPoses.set(i, new Position(splits[i]));
+						}
+					}
+					else if(line.startsWith("nums:"))
+					{
+						line = line.substring("nums:".length());
+						String[] splits = line.split("~");
+
+						for(int i = 0; i < splits.length; i++)
+						{
+							String[] ssss = splits[i].split(",");
+							this.crosshairScores.set(i, Integer.parseInt(ssss[0]));
+							this.crosshairCharges.set(i, Integer.parseInt(ssss[1]));
 						}
 					}
 					else if(line.startsWith("id:"))
@@ -153,6 +180,12 @@ public class ShootClient extends Socket implements Runnable
 						last = System.currentTimeMillis();
 						getWriter().println("pos:"+mousePos.toString());
 						getWriter().flush();
+						if(myNumsChanged)
+						{
+							myNumsChanged = false;
+							getWriter().println("nums:"+myScore + "," + myCharges);
+							getWriter().flush();
+						}
 					}
 				}
 			}

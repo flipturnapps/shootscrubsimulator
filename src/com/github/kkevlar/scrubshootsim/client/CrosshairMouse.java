@@ -43,6 +43,18 @@ public class CrosshairMouse extends CrosshairPlayer
 	{
 		setMousePos(new Position((int) getPanel().getMouseX(),(int) getPanel().getMouseY()));
 		this.getClient().setMousePos(getMousePos());
+		
+		if(this.getScore() != getClient().myScore)
+		{
+			getClient().myScore = this.getScore();
+			getClient().myNumsChanged = true;
+		}
+		if(this.getAoeCharges() != getClient().myCharges)
+		{
+			getClient().myCharges = this.getAoeCharges();
+			getClient().myNumsChanged = true;
+		}
+		
 		super.childSpotlight();
 	
 	}
