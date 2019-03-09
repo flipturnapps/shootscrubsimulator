@@ -26,7 +26,6 @@ public class CrosshairOpponent extends CrosshairPlayer
 
 	@Override
 	public boolean attacking() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
