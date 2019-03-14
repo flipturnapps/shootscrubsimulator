@@ -25,6 +25,12 @@ public class CrosshairOpponent extends CrosshairPlayer
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public boolean showLighterColor()
+	{
+		return this.getClient().crosshairDowns.get(this.getId());
+	}
 
 	public void setDoSplit()
 	{

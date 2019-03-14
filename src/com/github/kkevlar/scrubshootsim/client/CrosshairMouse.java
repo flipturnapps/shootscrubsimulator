@@ -41,6 +41,7 @@ public class CrosshairMouse extends CrosshairPlayer
 	@Override
 	public void childSpotlight() 
 	{
+		this.getClient().mouseDown = this.getPanel().mouseDown();
 		setMousePos(new Position((int) getPanel().getMouseX(),(int) getPanel().getMouseY()));
 		this.getClient().setMousePos(getMousePos());
 		super.childSpotlight();

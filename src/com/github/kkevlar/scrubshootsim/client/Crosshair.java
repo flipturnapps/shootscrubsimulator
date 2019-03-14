@@ -80,7 +80,7 @@ public abstract class Crosshair extends PositionSprite
 	{
 		
 		Color maiColor = this.getCrosshairColor();
-		if(attacking())
+		if(showLighterColor())
 			maiColor = KevinColor.mix(this.getCrosshairColor(), Color.WHITE, .3);
 		g.setColor(maiColor);
 
@@ -107,6 +107,10 @@ public abstract class Crosshair extends PositionSprite
 	}
 
 
+	protected boolean showLighterColor() 
+	{
+		return attacking();
+	}
 	public  abstract boolean attacking();
 	//public abstract void spotlight();
 	//public abstract void forEachScrub(Scrub scrub);
