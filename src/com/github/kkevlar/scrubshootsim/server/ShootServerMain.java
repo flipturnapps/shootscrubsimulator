@@ -3,6 +3,24 @@ import java.io.IOException;
 
 public class ShootServerMain
 {
+	
+	public static int getSpecialInt()
+	{
+		double d = Math.random();
+		if(d < .9)
+		{
+			return 0;
+		}
+		else if(d < .95)
+		{
+			return 1;
+		}
+		else
+		{
+			return 2;
+		}
+	}
+	
     public static void main (String[] args) throws IOException 
     {
 
@@ -20,9 +38,9 @@ public class ShootServerMain
         while (true)
         {
         	String scrubString = String.format("add:%d,%d~%d~%d", 
-        			(int) (Math.random() * 600),
-        			(int) (Math.random() * 600),
-        			Math.random() > .25 ? 0 : 2,
+        			(int) (Math.random() * 550),
+        			(int) (Math.random() * 550),
+        			getSpecialInt(),
         			i++);
         	s.sentToAll(scrubString);
         	try {

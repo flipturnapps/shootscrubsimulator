@@ -22,7 +22,7 @@ public class ScoreBar extends PositionSprite
 	@Override
 	protected void drawShape(Graphics g, SpritePanel s, int x, int y, int width, int height) {
 		g.setColor(color);
-		g.fillRect(0, pos*30, parent.getScore()*this.getPanelWidth()/50, 30);
+		g.fillRect(0, pos*30, parent.getScore()*this.getPanelWidth()/500, 30);
 
 	}
 
