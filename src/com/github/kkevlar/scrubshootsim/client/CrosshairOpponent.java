@@ -4,6 +4,7 @@ public class CrosshairOpponent extends CrosshairPlayer
 {
 
 	private long splitStartTime;
+	private long lastSplitTime;
 	
 	public CrosshairOpponent(int id, ShootClient client) {
 		super(id, client);
@@ -17,12 +18,14 @@ public class CrosshairOpponent extends CrosshairPlayer
 
 	@Override
 	public boolean wantsToUseAOE() {
-		return System.currentTimeMillis() - splitStartTime > 300;
+		boolean want = System.currentTimeMillis() - lastSplitTime > 300 && System.currentTimeMillis() - splitStartTime < 300;
+		if (want)
+			lastSplitTime = splitStartTime;
+		return want;
 	}
 
 	@Override
 	public boolean attacking() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -33,8 +36,7 @@ public class CrosshairOpponent extends CrosshairPlayer
 	}
 
 	public void setDoSplit()
-	{
-		
+	{	
 		splitStartTime = System.currentTimeMillis();
 	}
 
