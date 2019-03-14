@@ -18,7 +18,7 @@ public class ShootMain {
 		
 		
 		
-		try (BufferedInputStream in = new BufferedInputStream(new URL("https://raw.githubusercontent.com/kkevlar/shootscrubsimulator/master/warrens.txt").openStream());
+		try (BufferedInputStream in = new BufferedInputStream(new URL("https://github.com/kkevlar/shootscrubsimulator/releases/download/v0.1/test.txt").openStream());
 					  FileOutputStream fileOutputStream = new FileOutputStream("dong.txt")) {
 					    byte dataBuffer[] = new byte[1024];
 					    int bytesRead;
