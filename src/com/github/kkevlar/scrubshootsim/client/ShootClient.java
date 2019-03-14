@@ -16,11 +16,13 @@ import com.flipturnapps.kevinLibrary.sprite.PositionSprite;
 public class ShootClient extends Socket implements Runnable
 {
 	private ArrayList<Position> crosshairPoses;
+	public ArrayList<Boolean> crosshairDowns;
 	public ArrayList<Integer> crosshairScores;
 	public ArrayList<Integer> crosshairCharges;
 	private boolean initReader = false;
 	private boolean initWriter = false;
 	private Position mousePos;
+	public boolean mouseDown;
 	public int myId = -1;
 	private int maxPlayerId = -1;
 	private int oldMaxId = -1;
@@ -44,7 +46,11 @@ public class ShootClient extends Socket implements Runnable
 		setCrosshairPoses(new ArrayList<>());
 		while(crosshairPoses.size() < 20)
 			crosshairPoses.add(new Position(-1,-1));
-		
+
+		crosshairDowns = new ArrayList<>();
+		while(crosshairDowns.size() < 20)
+			crosshairDowns.add(false);
+
 		this.crosshairScores = new ArrayList<>();
 		while(this.crosshairScores.size() < 20)
 			this.crosshairScores.add(0);
@@ -107,7 +113,8 @@ public class ShootClient extends Socket implements Runnable
 
 						for(int i = 0; i < splits.length; i++)
 						{
-							crosshairPoses.set(i, new Position(splits[i]));
+							crosshairDowns.set(i, splits[i].charAt(0) == 'd');
+							crosshairPoses.set(i, new Position(splits[i].substring(1)));
 						}
 					}
 					else if(line.startsWith("nums:"))
@@ -178,7 +185,7 @@ public class ShootClient extends Socket implements Runnable
 					if(System.currentTimeMillis() - last > 20)
 					{
 						last = System.currentTimeMillis();
-						getWriter().println("pos:"+mousePos.toString());
+						getWriter().println("pos:"+ ( mouseDown ? 'd' : 'u' )+mousePos.toString());
 						getWriter().flush();
 						if(myNumsChanged)
 						{
