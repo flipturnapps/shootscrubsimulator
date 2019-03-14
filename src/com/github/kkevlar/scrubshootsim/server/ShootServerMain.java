@@ -7,11 +7,11 @@ public class ShootServerMain
 	public static int getSpecialInt()
 	{
 		double d = Math.random();
-		if(d < .9)
+		if(d < .98)
 		{
 			return 0;
 		}
-		else if(d < .95)
+		else if(d < .99)
 		{
 			return 1;
 		}

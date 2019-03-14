@@ -211,11 +211,17 @@ public class ShootClient extends Socket implements Runnable
 			CrosshairPlayer player = (CrosshairPlayer) spr;
 			players.put(player.getId(),player);
 		}
-		
+		try
+		{
 		if(this.getPanel() != null)
 			this.getPanel().add(spr);
 		else
 			this.spritesToAdd.push(spr);
+		}
+		catch(Exception ex)
+		{
+			
+		}
 	}
 	public void setMousePos(Position mousePos)
 	{
