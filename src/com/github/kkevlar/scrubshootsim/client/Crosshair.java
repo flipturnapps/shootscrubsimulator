@@ -65,11 +65,7 @@ public abstract class Crosshair extends PositionSprite
 		this.childSpotlight();
 		if(!alreadySplit && !this.isSplitting && wantsToUseAOE() && System.currentTimeMillis() - lastSplit > SPLIT_COOLDOWN && getAoeCharges() > 0)
 			splitAttack();
-		if(this.getScore() > 50)
-{
-			this.getPanel().setBackground(KevinColor.mix(this.crosshairColor, this.getPanel().getBackground()));
-			this.setScore(0);
-}
+
 	}
 
 	protected abstract void childSpotlight();
